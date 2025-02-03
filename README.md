@@ -23,11 +23,11 @@ The following information will serve to summarise project information in accorda
 "GAME TIPS & TRICKS" is a full-stack dynamic web application designed to create a collaborative space, where gamers can share and discover different strategies, techniques, and insights for the various mainstream games they're passionate about. This platform aims to encourage knowledge exchange and community-driven learning, aligning with the theme of “Sharing, Exchange, and Mutual Aid.”
 
 # Core Features
-<> A **searchable database of user-submitted game tips and tricks**, categorised by game and genre
-<> **Community-driven rating and feedback system** to ensure the quality and relevance of all user submissions 
-<> **User authentication** and **user profiles** to track an individual's contributions and engagement
-<> **Gamification elements** (e.g., community badges, leaderboard scores, and a point system) to encourage active user participation
-<> A **visually-appealing and user-friendly interface** that remains both aesthetically attractive & easy to navigate across various devices
+1. A **searchable database of user-submitted game tips and tricks**, categorised by game and genre
+2. **Community-driven rating and feedback system** to ensure the quality and relevance of all user submissions 
+3. **User authentication** and **user profiles** to track an individual's contributions and engagement
+4. **Gamification elements** (e.g., community badges, leaderboard scores, and a point system) to encourage active user participation
+5. A **visually-appealing and user-friendly interface** that remains both aesthetically attractive & easy to navigate across various devices
 
 # Technology Stack
 This will establish the technologies that will be using to model our current progress, team communication, and develop our project to the fullest.
