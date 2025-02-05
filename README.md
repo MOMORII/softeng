@@ -39,3 +39,6 @@ This will establish the technologies that will be using to model our current pro
 
 ### Development Approach
 We are following the 'Scrum' methodology, using GitHub Project for task management and sprint tracking. Our team aims to maintain communications through a WhatsApp groupchat for quick updates on current progress, and, 'Microsoft Teams' for weekly team meetings.
+
+### Kanban board
+INSERT LINK HERE
