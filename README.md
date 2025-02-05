@@ -41,4 +41,7 @@ This will establish the technologies that will be using to model our current pro
 We are following the 'Scrum' methodology, using GitHub Project for task management and sprint tracking. Our team aims to maintain communications through a WhatsApp groupchat for quick updates on current progress, and, 'Microsoft Teams' for weekly team meetings.
 
 ### Kanban board
-INSERT LINK HERE
+This is the Kanban board we use to track progress, organize tasks, and ensure smooth workflow management. Each column represents a different stage of the process, helping us visualize work in progress and prioritize tasks effectively.
+
+- [Kanban Board](https://github.com/users/MOMORII/projects/2/views/1)
+  
