@@ -37,26 +37,26 @@ This will establish the technologies that will be using to model our current pro
 - **DevOps & CI/CD**: Docker, Git, GitHub Actions
 - **Project Management**: GitHub Project
 
-### Ethical Issues
+## Ethical Issues
 In developing the “Game Tips & Tricks” web application, several ethical considerations must be addressed to ensure the platform remains a responsible and fair digital space for users.
 
-## Data Privacy & Security  
+### Data Privacy & Security  
 Since the platform will involve user authentication and profile tracking, it is essential to implement strong security measures to protect user data from unauthorized access, data breaches, or misuse (Schneier, 2020). The General Data Protection Regulation (GDPR) and other relevant data protection laws must be adhered to to safeguard personal information (European Parliament, 2016).
 
-## Intellectual Property & Copyright
+### Intellectual Property & Copyright
 The platform relies on user-generated content, raising concerns about the unauthorized sharing of copyrighted material. Ensuring users submit original content and properly attribute external sources is critical to prevent legal disputes (Lessig, 2004). Implementing terms of use that explicitly outline content ownership and copyright policies will help mitigate this risk.
 
-## User Moderation & Ethical Content Management 
+### User Moderation & Ethical Content Management 
 As a community-driven platform, there is a risk of users posting misleading, offensive, or harmful content. Ethical content moderation strategies, including automated filtering, user reporting mechanisms, and human moderation, should be established to uphold a respectful and inclusive environment (Gillespie, 2018).
 
-## Fairness & Anti-Toxicity Measures 
+### Fairness & Anti-Toxicity Measures 
 Gaming communities can sometimes foster toxic behavior, such as harassment or discrimination. To promote fairness and inclusivity, the platform should implement clear community guidelines and an effective reporting system for inappropriate behavior (Kowert, 2020).
 
-## Gamification & Ethical User Engagement
+### Gamification & Ethical User Engagement
 The implementation of leaderboards, point systems, and badges must be carefully designed to avoid fostering addictive behaviors or excessive competition. Ethical gamification practices should encourage healthy engagement rather than exploit users’ psychological triggers for profit (Zagal & Tomuro, 2013).
 By addressing these ethical concerns, the Game Tips & Tricks platform can create a responsible, safe, and engaging environment for gamers while adhering to digital ethics and best practices.
 
-## References
+### References
 European Parliament (2016) Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data (General Data Protection Regulation). Available at: https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng (Accessed: 3 February 2025).
 
 Gillespie, T. (2018) Custodians of the internet: Platforms, content moderation, and the hidden decisions that shape social media. New Haven: Yale University Press.
