@@ -75,5 +75,8 @@ We are following the 'Scrum' methodology, using GitHub Project for task manageme
 ## Kanban board
 This is the Kanban board we use to track progress, organize tasks, and ensure smooth workflow management. Each column represents a different stage of the process, helping us visualize work in progress and prioritize tasks effectively. [Kanban Board](https://github.com/users/MOMORII/projects/2/views/1)
 
+## Persona 
+We have reformatted the user persona into the structured layout, orginizing the details into section that includes Name, Age, Occupation, Goals, Frustration, Wishes, and Scenario. 
+
 ## Conclusion
 As a team, we were able to effectively distribute task responsibilities and successfully complete the Sprint 1 checklist objectives outlined in the coursework brief. Through clear and consistent communication via WhatsApp and Microsoft Teams, we utilised GitHub, Visual Studio Code, and Docker to achieve our development goals efficiently.
