@@ -41,7 +41,7 @@ This will establish the technologies that will be using to model our current pro
 We are following the 'Scrum' methodology, using GitHub Project for task management and sprint tracking. Our team aims to maintain communications through a WhatsApp groupchat for quick updates on current progress, and, 'Microsoft Teams' for weekly team meetings.
 
 ## Persona 
-We have reformatted the user persona into the structured layout, orginizing the details into section that includes Name, Age, Occupation, Goals, Frustration, Wishes, and Scenario. 
+To better understand our target audience and intended user demographic, we have created and reformatted three different user personas into a structured table layout, orginising the details into section that includes Name, Age, Occupation, Goals, Frustration, Wishes, and Scenario. 
 
 ## Ethical Issues
 In developing the “Game Tips & Tricks” web application, several ethical considerations must be addressed to ensure the platform remains a responsible and fair digital space for users.
