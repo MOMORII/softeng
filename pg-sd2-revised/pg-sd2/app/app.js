@@ -11,8 +11,8 @@ app.use(express.static("static"));
 const db = require('./services/db');
 
 // Create a route for root - /
-app.get("/", function(req, res) {
-    res.send("Hello world!");
+app.get("/roehampton", function(req, res) {
+    res.send("hello roehampton");
 });
 
 // Create a route for testing the db
