@@ -14,6 +14,25 @@ const db = require('./services/db');
 app.get("/roehampton", function(req, res) {
     res.send("hello roehampton");
 });
+//TESTING FOR SYNCRONISATION ACROSS ALL DEVICES -keisha
+app.get("/all-students", function(req, res) {
+    var sql = ' select * from Students';
+    db.query(sql).then(results => {
+        console.log(results);
+        res.json(results);
+    })
+})
+
+app.get("/all-students-formatted", function(req,res) {
+    var sql = ' select * from Students';
+    var output = '<table border="1px">';
+    db.query(sql).then(results => {
+        for (var row of results) {
+            console.log(row.id);
+        }
+    })
+    res.send(results);
+})
 
 // Create a route for testing the db
 app.get("/db_test", function(req, res) {
