@@ -14,6 +14,12 @@ const db = require('./services/db');
 app.get("/roehampton", function(req, res) {
     res.send("hello roehampton");
 });
+
+//testing PUG
+app.get("/", function(req,res) {
+   res.render("index"); 
+});
+
 //TESTING FOR SYNCRONISATION ACROSS ALL DEVICES -keisha
 app.get("/all-students", function(req, res) {
     var sql = ' select * from Students';
