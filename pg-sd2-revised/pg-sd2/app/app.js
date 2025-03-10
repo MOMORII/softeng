@@ -10,14 +10,14 @@ app.use(express.static("static"));
 // Get the functions in the db.js file to use
 const db = require('./services/db');
 
+//testing PUG
+app.get("/PUG", (req,res) => {
+    res.render("index"); 
+});
+
 // Create a route for root - /
 app.get("/roehampton", function(req, res) {
     res.send("hello roehampton");
-});
-
-//testing PUG
-app.get("/PUG", function(req,res) {
-   res.render("index"); 
 });
 
 //TESTING FOR SYNCRONISATION ACROSS ALL DEVICES -keisha
