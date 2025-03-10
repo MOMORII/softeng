@@ -16,7 +16,7 @@ app.get("/roehampton", function(req, res) {
 });
 
 //testing PUG
-app.get("/", function(req,res) {
+app.get("/PUG", function(req,res) {
    res.render("index"); 
 });
 
