@@ -1,82 +1,58 @@
-(CMP020N204S) Software Engineering
-# PROJECT: GAME TIPS & TRICKS
-### Written by. "Checkpoint"
+# MySQL, PHPMyAdmin and Node.js (ready for Express development)
 
-## Checkpoint Group Member Details
-- Keisha Geyrozaga(GEY23581805) [GitHub Profile](https://github.com/MOMORII)
-- Anderson Ricardo Gomes Ballestroz (GOM21551647) [GitHub Profile](https://github.com/AndersonRGB)
-- Mohammad Rohan (ROH22609719) [GitHub Profile](https://github.com/rohanxco)
-- Angelo Bongon (BON22529894) [GitHub Profile](https://github.com/Z3R018)
-  
-## Repository Information
-This repository contains the group coursework, which will intend to produce a full-stack dynamic web application focusing on the element of 'GAME TIPS & TRICKS', in addition to a PDF report, detailing additional information about our project's planned objectives & target goals. Using a Kanban board, we have allocated tasks between us fairly and equally amongst ourselves. This board contains the product backlog, which will be updated with additional tasks according to the immediate sprint checklist—ensuring we prioritize the current sprint’s deadlines before moving on to the next. 
+This will install Mysql and phpmyadmin (including all dependencies to run Phpmyadmin) AND node.js
 
-## Project Overview
-The following information will serve to summarise project information in accordance with the assignment brief and the group project requirements outlined in the 'Software Engineering' module guideline PDFs.
+This receipe is for development - Node.js is run in using supervisor: changes to any file in the app will trigger a rebuild automatically.
 
-### Team Member Roles:
-- Keisha - Product Owner
-- Anderson - Scrum Master
-- Angelo & Rohan - Developers
+For security, this receipe uses a .env file for credentials.  A sample is provided in the env-sample file. If using these files for a fresh project, copy the env-sample file to a file called .env.  Do NOT commit the changed .env file into your new project for security reasons (in the node package its included in .gitignore so you can't anyway)
 
-### Project Summary
-"GAME TIPS & TRICKS" is a full-stack dynamic web application designed to create a collaborative space, where gamers can share and discover different strategies, techniques, and insights for the various mainstream games they're passionate about. This platform aims to encourage knowledge exchange and community-driven learning, aligning with the theme of “Sharing, Exchange, and Mutual Aid.”
+In node.js, we use the MySQl2 packages (to avoid problems with MySQL8) and the dotenv package to read the environment variables.
 
-### Core Features
-1. A **searchable database of user-submitted game tips and tricks**, categorised by game and genre
-2. **Community-driven rating and feedback system** to ensure the quality and relevance of all user submissions 
-3. **User authentication** and **user profiles** to track an individual's contributions and engagement
-4. **Gamification elements** (e.g., community badges, leaderboard scores, and a point system) to encourage active user participation
-5. A **visually-appealing and user-friendly interface** that remains both aesthetically attractive & easy to navigate across various devices
+Local files are mounted into the container using the 'volumes' directive in the docker-compose.yml for ease of development.
 
-### Technology Stack
-This will establish the technologies that will be using to model our current progress, team communication, and develop our project to the fullest.
+### Super-quickstart your new project:
 
-- **Frontend**: HTML, CSS, JavaScript, PUG templating system
-- **Backend**: Node.js, Express.js, MySQL database
-- **DevOps & CI/CD**: Docker, Git, GitHub Actions
-- **Project Management**: GitHub Project
+* Make sure that you don't have any other containers running usind docker ps
+* run ```docker-compose up --build```
 
-### Development Approach
-We are following the 'Scrum' methodology, using GitHub Project for task management and sprint tracking. Our team aims to maintain communications through a WhatsApp groupchat for quick updates on current progress, and, 'Microsoft Teams' for weekly team meetings.
+#### Visit phphmyadmin at:
 
-## Persona 
-To better understand our target audience and intended user demographic, we have created and reformatted three different user personas into a structured table layout, orginising the details into section that includes Name, Age, Occupation, Goals, Frustration, Wishes, and Scenario. 
+http://localhost:8081/
 
-## Ethical Issues
-In developing the “Game Tips & Tricks” web application, several ethical considerations must be addressed to ensure the platform remains a responsible and fair digital space for users.
+#### Visit your express app at:
 
-### Data Privacy & Security  
-Since the platform will involve user authentication and profile tracking, it is essential to implement strong security measures to protect user data from unauthorized access, data breaches, or misuse (Schneier, 2020). The General Data Protection Regulation (GDPR) and other relevant data protection laws must be adhered to to safeguard personal information (European Parliament, 2016).
+http://localhost:3000
 
-### Intellectual Property & Copyright
-The platform relies on user-generated content, raising concerns about the unauthorized sharing of copyrighted material. Ensuring users submit original content and properly attribute external sources is critical to prevent legal disputes (Lessig, 2004). Implementing terms of use that explicitly outline content ownership and copyright policies will help mitigate this risk.
+For reference, see the video at: https://roehampton.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=6f290a6b-ba94-4729-9632-adcf00ac336e
 
-### User Moderation & Ethical Content Management 
-As a community-driven platform, there is a risk of users posting misleading, offensive, or harmful content. Ethical content moderation strategies, including automated filtering, user reporting mechanisms, and human moderation, should be established to uphold a respectful and inclusive environment (Gillespie, 2018).
+NB if you are running this on your own computer rather than the azure labs that has been set up for you, you will need to install the following:
 
-### Fairness & Anti-Toxicity Measures 
-Gaming communities can sometimes foster toxic behavior, such as harassment or discrimination. To promote fairness and inclusivity, the platform should implement clear community guidelines and an effective reporting system for inappropriate behavior (Kowert, 2020).
+* node.js  (windows: https://nodejs.org/en/download/)
+* docker desktop (for windows, this will also prompt you to install linux subsystem for windows https://docs.docker.com/desktop/windows/install/ )
 
-### Gamification & Ethical User Engagement
-The implementation of leaderboards, point systems, and badges must be carefully designed to avoid fostering addictive behaviors or excessive competition. Ethical gamification practices should encourage healthy engagement rather than exploit users’ psychological triggers for profit (Zagal & Tomuro, 2013).
-By addressing these ethical concerns, the Game Tips & Tricks platform can create a responsible, safe, and engaging environment for gamers while adhering to digital ethics and best practices.
+### Whats provided in these scaffolding files?
 
-### References
-European Parliament (2016) Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data (General Data Protection Regulation). Available at: https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng (Accessed: 3 February 2025).
 
-Gillespie, T. (2018) Custodians of the internet: Platforms, content moderation, and the hidden decisions that shape social media. New Haven: Yale University Press.
+  * A docker setup which will provide you with node.js, mysql and phpmyadmin, including the configuration needed so that both node.js AND phpmyadmin can 'see' and connect to your mysql database.  If you don't use docker you'll have to set up and connect each of these components separately.
+  * A basic starting file structure for a node.js app.
+  * A package.json file that will pull in the node.js libraries required and start your app as needed.
+  * A db.js file which provides all the code needed to connect to the mysql database, using the credentials in the .env file, and which provides a query() function that can send queries to the database and receive a result.  In order to use this (ie. interact with the database, you simply need to include this file in any file you create that needs this database interaction) with the following code:
 
-Kowert, R. (2020) Video games and well-being: Press start. Cham: Palgrave Macmillan.
+```const db = require('./services/db');
+```
 
-Lessig, L. (2004) Free culture: How big media uses technology and the law to lock down culture and control creativity. New York: Penguin Press.
+____
 
-Schneier, B. (2020) Click here to kill everybody: Security and survival in a hyper-connected world. New York: W.W. Norton & Company.
+Useful commands:
 
-Zagal, J.P. and Tomuro, N. (2013) 'The addictive qualities of gaming: Ethics and game design', Games and Culture, 8(1), pp. 45–61.
+Get a shell in any of the containers
 
-## Kanban board
-This is the Kanban board we use to track progress, organize tasks, and ensure smooth workflow management. Each column represents a different stage of the process, helping us visualize work in progress and prioritize tasks effectively. [Kanban Board Link](https://github.com/users/MOMORII/projects/2/views/1)
+```bash
+docker exec -it <container name> bash -l
+```
 
-## Conclusion
-As a team, we were able to effectively distribute task responsibilities and successfully complete the Sprint 1 checklist objectives outlined in the coursework brief. Through clear and consistent communication via WhatsApp and Microsoft Teams, we utilised GitHub, Visual Studio Code, and Docker to achieve our development goals efficiently.
+Once in the database container, you can get a MySQL CLI in the usual way
+
+```bash
+mysql -uroot -p<password> 
+```
