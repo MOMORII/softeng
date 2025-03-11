@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="pg-sd2-revised">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/pg-sd2-revised.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

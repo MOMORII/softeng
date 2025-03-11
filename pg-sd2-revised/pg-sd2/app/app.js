@@ -4,6 +4,10 @@ const express = require("express");
 // Create express app
 var app = express();
 
+// Use the PUG templating sys
+app.set('view engine', 'pug');
+app.set('views', './app/views');
+
 // Add static files location
 app.use(express.static("static"));
 
@@ -11,8 +15,8 @@ app.use(express.static("static"));
 const db = require('./services/db');
 
 //testing PUG
-app.get("/PUG", (req,res) => {
-    res.render("index"); 
+app.get("/", (req, res) => {
+    res.render('index'); 
 });
 
 // Create a route for root - /
