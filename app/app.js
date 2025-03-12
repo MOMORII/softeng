@@ -1,3 +1,9 @@
+//THE OFFICIAL BACKEND APPLICATION FOR 'GAME TIPS & TRICKS (GTT)'
+//Written By. Keisha Geyrozaga, Anderson Ricardo Gomes Ballestroz, Mohammad Rohan, Angelo Bongon
+//Last Updated: 12/03/2025
+
+// [KEISHA] Update1: Redid the backend environment, due to download difficulties regarding loading/starting PUG.
+
 // Import express.js
 const express = require("express");
 
