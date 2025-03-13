@@ -21,10 +21,79 @@ const db = require('./services/db');
 
 // Create a route for root - /
 app.get("/", function(req, res) {
-    res.render("index");
+    var test_data = ['one', 'two', 'three', 'four'];
+    res.render("index3", {'title': 'My Index Page', 'heading':'My heading', 'data': test_data});
 });
-// Create a route for /goodbye
-// Responds to a 'GET' request
+
+// Attempts to create a route for /userprofile (connects to respective PUG file)
+app.get("/userprofile", function(req, res) {
+    res.render("userprofile");
+});
+
+//Tests connection to the Game_Tips_and_Tricks databse
+// Fetches the data from the 'User' table
+app.get("/all-users", function(req, res) {
+    var sql = 'select * from User';
+    db.query(sql).then(results => {
+        console.log(results);
+        res.json(results);
+    })
+});
+
+//Tests connection to the Game_Tips_and_Tricks database by displaying different users
+//Collects data from the Game_Tips_and_Tricks db and outputs it into a table format
+app.get("/all-users-formatted", function(req, res) {
+    var sql = 'select * from User';
+    var output = '<table border = 1px>';
+    db.query(sql).then(results => {
+        for (var row of results) {
+            output += '<tr>';
+            output += '<td>' + row.userID + '</td>';
+            output += '<td>' + '<a href="./single-user/' + row.userID + '">' + row.username + '</a>' + '</td>';
+            output += '</tr>';
+        }
+        output += '</table>';
+        res.send(output);
+    })
+});
+
+//Connects to the route above to obtain data from individual users
+app.get("/single-user/:userID", function(req, res) {
+    var uID = req.params.userID;
+    console.log(uID);
+    var uSQL = "SELECT u.username as username, p.progress as title\
+    FROM User u\
+    JOIN Profile p on p.profileID = u.userID\
+    WHERE u.userID=?";
+    var bSQL = "SELECT b.name as Badge, bc.requirement as Requirement from Badge b\
+    JOIN BadgeCriteria bc on bc.criteriaID = b.badgeID\
+    WHERE b.badgeID=1";
+
+    db.query(uSQL, [uID]).then(results => {
+        console.log(results);
+        res.send(uID);
+        var Badge = results[0];
+        output = '';
+        output += '<div><b>Username: </b>' + results[0].username + '</div>';
+        output += '<div><b>Title: </b>' + results[0].title + '</div>';
+
+        //Now we call the db for the badge info (?)
+        db.query(bSQL, [uID]).then(results => {
+            output += '<table border="1px">';
+            for (var row of results) {
+                output += '<tr>';
+                output += '<td>' + row.badge + '</td>';
+                output += '<td>' + row.requirement + '</td>';
+                output += '</tr>';
+            }
+            output += '</table>';
+            res.send(output);
+        })
+    })
+});
+
+// Create a route for /goodbye and responds to a 'GET' request
+// Tests connection to the localhost (via port 3000)
 app.get("/goodbye", function(req, res) {
     res.send("Goodbye world!");
 });

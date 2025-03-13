@@ -1,14 +1,37 @@
 doctype html
 html
   head
-    title User Statistics
-    link(rel="stylesheet", href="/styles.css")
+    title #{user.username}'s Statistics
+    link(rel="stylesheet", href="/static/styles.css")
   body
     div.container
       h1 #{user.username}'s Statistics
+
       div.stats
-        p Total Tips Posted: #{user.stats.totalTips}
-        p Total Comments: #{user.stats.totalComments}
-        p Total Likes Received: #{user.stats.totalLikes}
-      
-      a(href=`/user/profile/#{user.id}`) Back to Profile
+        h2 Overview
+        ul
+          li Total Tips Posted: #{user.stats.totalTips}
+          li Total Comments: #{user.stats.totalComments}
+          li Total Likes Received: #{user.stats.totalLikes}
+
+      div.badges-earned
+        h2 Earned Badges
+        if user.badges.length
+          ul
+            each badge in user.badges
+              li 
+                strong #{badge.name}
+                |  - #{badge.description} (Earned: #{badge.earned_at})
+        else
+          p No badges earned yet.
+
+      div.top-comments
+        h2 Most Liked Comments
+        if topComments.length
+          ul
+            each comment in topComments
+              li "#{comment.text}" - #{comment.likeCounter} Likes
+        else
+          p No highly liked comments yet.
+
+      a(href=`/user/profile/${user.id}`) Back to Profile

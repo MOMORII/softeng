@@ -1,8 +1,8 @@
 doctype html
 html
   head
-    title User Profile
-    link(rel="stylesheet", href="/styles.css")
+    title #{user.username}'s Profile
+    link(rel="stylesheet", href="/static/styles.css")
   body
     div.container
       h1 #{user.username}'s Profile
@@ -11,18 +11,27 @@ html
         p Name: #{user.fullname}
         p Email: #{user.email}
         p Member since: #{user.joinDate}
-      
+        p Progress Level: #{user.progress} 
+
       div.badges
         h2 Achievements
-        ul
-          each badge in badges
-            li #{badge.name} - #{badge.description}
-      
+        if badges.length
+          ul
+            each badge in badges
+              li 
+                strong #{badge.name} 
+                |  - #{badge.description} (Earned: #{badge.earned_at})
+        else
+          p No badges earned yet.
+
       div.contributions
         h2 Contributions
-        ul
-          each tip in tips
-            li 
-              a(href=`/tips/${tip.id}`) #{tip.title}
+        if tips.length
+          ul
+            each tip in tips
+              li 
+                a(href=`/tips/${tip.tipID}`) #{tip.title} (#{tip.gameTitle})
+        else
+          p No contributions yet.
 
       a(href="/") Back to Home
