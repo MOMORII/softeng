@@ -1,0 +1,28 @@
+doctype html
+html
+  head
+    title User Profile
+    link(rel="stylesheet", href="/styles.css")
+  body
+    div.container
+      h1 #{user.username}'s Profile
+      div.profile-info
+        img.profile-img(src=user.profilePicture alt="Profile Picture")
+        p Name: #{user.fullname}
+        p Email: #{user.email}
+        p Member since: #{user.joinDate}
+      
+      div.badges
+        h2 Achievements
+        ul
+          each badge in badges
+            li #{badge.name} - #{badge.description}
+      
+      div.contributions
+        h2 Contributions
+        ul
+          each tip in tips
+            li 
+              a(href=`/tips/${tip.id}`) #{tip.title}
+
+      a(href="/") Back to Home

@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    title User Statistics
+    link(rel="stylesheet", href="/styles.css")
+  body
+    div.container
+      h1 #{user.username}'s Statistics
+      div.stats
+        p Total Tips Posted: #{user.stats.totalTips}
+        p Total Comments: #{user.stats.totalComments}
+        p Total Likes Received: #{user.stats.totalLikes}
+      
+      a(href=`/user/profile/#{user.id}`) Back to Profile

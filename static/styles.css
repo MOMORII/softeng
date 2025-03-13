@@ -1,0 +1,25 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 40px;
+  }
+  .container {
+    max-width: 600px;
+    margin: auto;
+  }
+  .profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  ul li {
+    background: #f4f4f4;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
