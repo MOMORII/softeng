@@ -34,4 +34,27 @@ html
         else
           p No highly liked comments yet.
 
+      div.most-active-times
+        h2 Most Active Times
+        if user.stats.mostActiveTimes.length
+          ul
+            each time in user.stats.mostActiveTimes
+              li #{time.day} at #{time.time} - #{time.activityType} Activity
+        else
+          p No active times tracked yet.
+
+      div.engagement-summary
+        h2 Engagement Summary
+        p Total Engagements: #{user.stats.totalEngagements}
+        p Average Engagement per Post: #{user.stats.avgEngagement}
+
+      div.recent-activity
+        h2 Recent Activity
+        if user.recentActivity.length
+          ul
+            each activity in user.recentActivity
+              li #{activity.date} - #{activity.action}
+        else
+          p No recent activities.
+
       a(href=`/user/profile/${user.id}`) Back to Profile

@@ -26,8 +26,57 @@ app.get("/", function(req, res) {
 });
 
 // Attempts to create a route for /userprofile (connects to respective PUG file)
-app.get("/userprofile", function(req, res) {
-    res.render("userprofile");
+app.get("/userprofile/:userID", function(req, res) {
+    var uID = req.params.userID;
+    
+    // SQL query to fetch the user's profile data
+    var uSQL = `
+        SELECT u.username, u.email, u.date_joined, p.progress
+        FROM User u
+        JOIN Profile p ON p.userID = u.userID
+        WHERE u.userID = ?
+    `;
+
+    // SQL query to fetch badges the user has earned
+    var bSQL = `
+        SELECT b.name AS badgeName, b.description AS badgeDescription
+        FROM Badge b
+        JOIN UserBadge ub ON ub.badgeID = b.badgeID
+        WHERE ub.userID = ?
+    `;
+    
+    // SQL query to fetch tips contributed by the user
+    var tSQL = `
+        SELECT t.tipID, t.title, t.createdAt
+        FROM Tip t
+        WHERE t.userID = ?
+    `;
+
+    // Query the user profile data
+    db.query(uSQL, [uID]).then(userResults => {
+        if (userResults.length > 0) {
+            var user = userResults[0]; // Since we expect one result
+
+            // Query the user's badges
+            db.query(bSQL, [uID]).then(badgeResults => {
+                // Query the user's tips
+                db.query(tSQL, [uID]).then(tipResults => {
+                    // Render the profile page and pass the data
+                    res.render('userprofile', {
+                        user: user,
+                        badges: badgeResults,
+                        tips: tipResults
+                    });
+                });
+            });
+        } else {
+            // Handle case where user is not found
+            res.status(404).send('User not found');
+        }
+    }).catch(err => {
+        console.log(err);
+        res.status(500).send('Internal server error');
+    });
 });
 
 //Tests connection to the Game_Tips_and_Tricks databse

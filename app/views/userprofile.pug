@@ -7,20 +7,19 @@ html
     div.container
       h1 #{user.username}'s Profile
       div.profile-info
-        img.profile-img(src=user.profilePicture alt="Profile Picture")
-        p Name: #{user.fullname}
+        p Username: #{user.username}
         p Email: #{user.email}
-        p Member since: #{user.joinDate}
-        p Progress Level: #{user.progress} 
+        p Member since: #{user.date_joined}
+        p Progress Level: #{user.progress}
 
       div.badges
         h2 Achievements
         if badges.length
           ul
             each badge in badges
-              li 
-                strong #{badge.name} 
-                |  - #{badge.description} (Earned: #{badge.earned_at})
+              li
+                strong #{badge.badgeName}
+                |  - #{badge.badgeDescription}
         else
           p No badges earned yet.
 
@@ -29,8 +28,8 @@ html
         if tips.length
           ul
             each tip in tips
-              li 
-                a(href=`/tips/${tip.tipID}`) #{tip.title} (#{tip.gameTitle})
+              li
+                a(href=`/tips/${tip.tipID}`) #{tip.title} (#{tip.createdAt})
         else
           p No contributions yet.
 
