@@ -10,51 +10,28 @@ html
       div.stats
         h2 Overview
         ul
-          li Total Tips Posted: #{user.stats.totalTips}
-          li Total Comments: #{user.stats.totalComments}
-          li Total Likes Received: #{user.stats.totalLikes}
+          li Total Tips Posted: #{stats.totalTips}
+          li Total Comments: #{stats.totalComments}
+          li Total Likes Received: #{stats.totalLikes}
 
       div.badges-earned
         h2 Earned Badges
-        if user.badges.length
+        if badges.length > 0
           ul
-            each badge in user.badges
+            each badge in badges
               li 
-                strong #{badge.name}
-                |  - #{badge.description} (Earned: #{badge.earned_at})
+                strong #{badge.badgeName}
+                |  - #{badge.badgeDescription} (Earned: #{badge.earned_at})
         else
           p No badges earned yet.
 
       div.top-comments
         h2 Most Liked Comments
-        if topComments.length
+        if topComments && topComments.length > 0
           ul
             each comment in topComments
               li "#{comment.text}" - #{comment.likeCounter} Likes
         else
           p No highly liked comments yet.
 
-      div.most-active-times
-        h2 Most Active Times
-        if user.stats.mostActiveTimes.length
-          ul
-            each time in user.stats.mostActiveTimes
-              li #{time.day} at #{time.time} - #{time.activityType} Activity
-        else
-          p No active times tracked yet.
-
-      div.engagement-summary
-        h2 Engagement Summary
-        p Total Engagements: #{user.stats.totalEngagements}
-        p Average Engagement per Post: #{user.stats.avgEngagement}
-
-      div.recent-activity
-        h2 Recent Activity
-        if user.recentActivity.length
-          ul
-            each activity in user.recentActivity
-              li #{activity.date} - #{activity.action}
-        else
-          p No recent activities.
-
-      a(href=`/user/profile/${user.id}`) Back to Profile
+      a(href=`/user/profile/${user.userID}`) Back to Profile

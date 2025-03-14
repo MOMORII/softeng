@@ -79,6 +79,82 @@ app.get("/userprofile/:userID", function(req, res) {
     });
 });
 
+// Create a route for /userstatistics and fetch user data
+app.get("/userstatistics/:userID", function(req, res) {
+    var uID = req.params.userID;
+
+    // SQL query to fetch user's profile and stats data
+    var uSQL = `
+        SELECT u.username, u.email, u.date_joined, p.progress
+        FROM User u
+        JOIN Profile p ON p.userID = u.userID
+        WHERE u.userID = ?
+    `;
+
+    // SQL query to fetch badges the user has earned
+    var bSQL = `
+        SELECT b.name AS badgeName, b.description AS badgeDescription, ub.earned_at
+        FROM Badge b
+        JOIN UserBadge ub ON ub.badgeID = b.badgeID
+        WHERE ub.userID = ?
+    `;
+    
+    // SQL query to fetch total tips posted by the user
+    var tSQL = `
+        SELECT COUNT(*) AS totalTips
+        FROM Tip
+        WHERE userID = ?
+    `;
+
+    // SQL query to fetch total comments made by the user
+    var cSQL = `
+        SELECT COUNT(*) AS totalComments
+        FROM Comments
+        WHERE userID = ?
+    `;
+
+    // SQL query to fetch total likes received by the user
+    var lSQL = `
+        SELECT SUM(likeCounter) AS totalLikes
+        FROM Comments
+        WHERE userID = ?
+    `;
+
+    // Query the user profile data
+    db.query(uSQL, [uID]).then(userResults => {
+        if (userResults.length > 0) {
+            var user = userResults[0]; // Since we expect one result
+
+            // Query the user's badges
+            db.query(bSQL, [uID]).then(badgeResults => {
+
+                // Query the user's total tips, comments, and likes
+                db.query(tSQL, [uID]).then(tipResults => {
+                    db.query(cSQL, [uID]).then(commentResults => {
+                        db.query(lSQL, [uID]).then(likeResults => {
+                            // Pass all the data to the PUG template
+                            res.render('userstatistics', {
+                                user: user,
+                                badges: badgeResults,
+                                stats: {
+                                    totalTips: tipResults[0].totalTips,
+                                    totalComments: commentResults[0].totalComments,
+                                    totalLikes: likeResults[0].totalLikes
+                                }
+                            });
+                        });
+                    });
+                });
+            });
+        } else {
+            res.status(404).send('User not found');
+        }
+    }).catch(err => {
+        console.log(err);
+        res.status(500).send('Internal server error');
+    });
+});  
+
 //Tests connection to the Game_Tips_and_Tricks databse
 // Fetches the data from the 'User' table
 app.get("/all-users", function(req, res) {
