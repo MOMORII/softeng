@@ -1,7 +1,6 @@
-extends layout
+extends layout2
 
 block content
-  h1 #{user.username} PROFILE
   div.container
     h1 #{user.username}'s PROFILE PAGE 
     div.profile-info
@@ -11,7 +10,7 @@ block content
       p Title: #{user.progress}
 
     div.badges
-      h2 Achievements
+      h2 ACHIEVEMENTS
       if badges.length
         ul
           each badge in badges
@@ -22,7 +21,7 @@ block content
         p No badges earned yet.
 
     div.contributions
-      h2 Contributions
+      h2 CONTRIBUTIONS
       if tips.length
         ul
           each tip in tips

@@ -1,5 +1,35 @@
-html 
-    head    
-        title #{title}
-    body 
+//USED FOR LOGIN/SIGNUP, USERPROFILE, AND USER STATISTICS PAGE
+//SAME AS 'LAYOUT' BUT NO MENU-BAR ON THE LEFTSIDE
+
+doctype html
+html
+  head
+    title #{title}
+    link(rel="stylesheet" href="/styles.css")
+  body
+    // HEADER SECTION
+    header
+      .logo GTT
+      .search-bar
+        input(type="text" placeholder="Search for TIPS (or TRICKS!)")
+      .icons
+        span.icon ➕
+        span.icon 🗪
+        span.icon 💾
+        span.icon 👤
+
+    //NAVBAR BELOW THE HEADER
+    nav.menu-bar
+      a(href="/") HOMEPAGE
+      a(href="/forums") FORUMS
+      a(href="/user/profile/#{user.userID}") USER PROFILE
+      a(href="/user/statistics/#{user.userID}") USER STATISTICS
+    
+    #main-content
+      // MAIN CONTENT FOR WEBPAGES
+      .content-area
         block content
+
+    // FOOTER SECTION
+    footer
+      p @GTT Team - &copy; 2025 All rights reserved.

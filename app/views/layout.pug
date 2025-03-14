@@ -1,3 +1,6 @@
+//USED FOR THE HOMEPAGE & FORUMS WEBPAGES
+//SAME AS 'LAYOUT' BUT NO MENU-BAR ON THE LEFTSIDE
+
 doctype html
 html
   head
@@ -15,8 +18,35 @@ html
         span.icon 💾
         span.icon 👤
 
-    // MAIN CONTENT (each page will insert its content here)
-    block content
+    //NAVBAR BELOW THE HEADER
+    nav.menu-bar
+      a(href="/") HOMEPAGE
+      a(href="/forums") FORUMS
+      a(href="/user/profile/#{user.userID}") USER PROFILE
+      a(href="/user/statistics/#{user.userID}") USER STATISTICS
+    
+    #main-content
+      aside
+        section
+          h3 Filter by Category
+          nav
+            ul
+              li: a(href="/forum/strategy") STRATEGY
+              li: a(href="/forum/shooter") SHOOTER
+              li: a(href="/forum/rpg") ROLE-PLAYING GAME
+              li: a(href="/category/multiplayer") MULTIPLAYER
+        
+        section
+          h3 Filter by Game Title
+          nav
+            ul
+              li: a(href="/forum/cyberquest") CyberQuest
+              li: a(href="/forum/fantasywars") Fantasy Wars
+              li: a(href="/forum/spaceinvaders3000") Space Invaders 3000
+
+      // MAIN CONTENT FOR WEBPAGES
+      .content-area
+        block content
 
     // FOOTER SECTION
     footer

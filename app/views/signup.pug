@@ -1,24 +1,8 @@
-extends layout
+extends layout2 
 
 block content
   div.container
     div.form-flex-container
-      div.form-box
-        h1 LOGIN
-        h3 Returning User? 
-        form(action="/login", method="POST")
-          div.input-group
-            label(for="username") Username:
-            input(type="text", id="username", name="username", required)
-          div.input-group
-            label(for="password") Password:
-            input(type="password", id="password", name="password", required)
-          br
-          div
-            button(type="submit") Login
-          br
-
-      // Right - Signup Form
       div.form-box
         h1 SIGNUP
         h3 New to 'Game Tips and Tricks'? Register here! 
@@ -37,4 +21,4 @@ block content
             button(type="submit") Signup
           br
 
-    a(href="/") Back to Home
+          a(href="/login") Already have an account? Click here to log in!

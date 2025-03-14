@@ -155,14 +155,19 @@ app.get("/userstatistics/:userID", function(req, res) {
     });
 });
 
-// Basic login function, creates weboage title and renders the login_signup.pug file
+// Basic login function, creates weboage title and renders the login.pug file
 app.get("/login", function (req, res) {
-    res.render("login_signup", { title: "Login | Signup" });
+    res.render("login", { title: "Login Page" });
+});
+
+// Basic signup function, creates weboage title and renders the login.pug file
+app.get("/signup", function (req, res) {
+    res.render("signup", { title: "Signup Page" });
 });
 
 
 //Tests connection to the Game_Tips_and_Tricks databse
-// Fetches the data from the 'User' table
+//Fetches the data from the 'User' table
 app.get("/all-users", function(req, res) {
     var sql = 'select * from User';
     db.query(sql).then(results => {

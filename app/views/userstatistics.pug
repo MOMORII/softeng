@@ -1,20 +1,18 @@
-extends layout
+extends layout2 
 
 block content
-  h1 #{user.username} USER STATISTICS
-
   div.container
     h1 #{user.username}'s STATISTICS
 
     div.stats
-      h2 Overview
+      h2 OVERVIEW:
       ul
         li Total Tips Posted: #{stats.totalTips}
         li Total Comments: #{stats.totalComments}
         li Total Likes Received: #{stats.totalLikes}
 
     div.badges-earned
-      h2 Earned Badges
+      h2 BADGES:
       if badges.length > 0
         ul
           each badge in badges
@@ -25,7 +23,7 @@ block content
         p No badges earned yet.
 
     div.top-comments
-      h2 Most Liked Comments
+      h2 MOST LIKED COMMENTS:
       if topComments && topComments.length > 0
         ul
           each comment in topComments
