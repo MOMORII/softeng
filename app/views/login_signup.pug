@@ -1,38 +1,40 @@
-doctype html
-html
-  head
-    title #{title}
-    link(rel="stylesheet", href="/static/styles.css")
-  body
-    div.container
-      h1 #{title}
+extends layout
 
-      // Login Form
-      form(action="/login", method="POST")
-        div
-          label(for="username") Username:
-          input(type="text", id="username", name="username", required=true)
-        div
-          label(for="password") Password:
-          input(type="password", id="password", name="password", required=true)
-        div
-          button(type="submit") Login
+block content
+  div.container
+    div.form-flex-container
+      div.form-box
+        h1 LOGIN
+        h3 Returning User? 
+        form(action="/login", method="POST")
+          div.input-group
+            label(for="username") Username:
+            input(type="text", id="username", name="username", required)
+          div.input-group
+            label(for="password") Password:
+            input(type="password", id="password", name="password", required)
+          br
+          div
+            button(type="submit") Login
+          br
 
-      hr
+      // Right - Signup Form
+      div.form-box
+        h1 SIGNUP
+        h3 New to 'Game Tips and Tricks'? Register here! 
+        form(action="/signup", method="POST")
+          div.input-group
+            label(for="username") Username:
+            input(type="text", id="username", name="username", required)
+          div.input-group
+            label(for="email") Email:
+            input(type="email", id="email", name="email", required)
+          div.input-group
+            label(for="password") Password:
+            input(type="password", id="password", name="password", required)
+          br
+          div
+            button(type="submit") Signup
+          br
 
-      // Signup Form
-      form(action="/signup", method="POST")
-        div
-          label(for="username") Username:
-          input(type="text", id="username", name="username", required=true)
-        div
-          label(for="email") Email:
-          input(type="email", id="email", name="email", required=true)
-        div
-          label(for="password") Password:
-          input(type="password", id="password", name="password", required=true)
-        div
-          button(type="submit") Signup
-
-    // Link to return to the home page (if needed)
     a(href="/") Back to Home
