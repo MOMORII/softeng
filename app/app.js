@@ -155,6 +155,7 @@ app.get("/userstatistics/:userID", function(req, res) {
     });
 });
 
+// Basic login function, creates weboage title and renders the login_signup.pug file
 app.get("/login", function (req, res) {
     res.render("login_signup", { title: "Login | Signup" });
 });

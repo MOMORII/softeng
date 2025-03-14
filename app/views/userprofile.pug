@@ -1,36 +1,34 @@
-doctype html
-html
-  head
-    title #{user.username}'s Profile
-    link(rel="stylesheet", href="/static/styles.css")
-  body
-    div.container
-      h1 #{user.username}'s Profile
-      div.profile-info
-        p Username: #{user.username}
-        p Email: #{user.email}
-        p Member since: #{user.date_joined}
-        p Title: #{user.progress}
+extends layout
 
-      div.badges
-        h2 Achievements
-        if badges.length
-          ul
-            each badge in badges
-              li
-                strong #{badge.badgeName}
-                |  - #{badge.badgeDescription}
-        else
-          p No badges earned yet.
+block content
+  h1 #{user.username} PROFILE
+  div.container
+    h1 #{user.username}'s PROFILE PAGE 
+    div.profile-info
+      p Username: #{user.username}
+      p Email: #{user.email}
+      p Member since: #{user.date_joined}
+      p Title: #{user.progress}
 
-      div.contributions
-        h2 Contributions
-        if tips.length
-          ul
-            each tip in tips
-              li
-                a(href=`/tips/${tip.tipID}`) #{tip.title} (#{tip.createdAt})
-        else
-          p No contributions yet.
+    div.badges
+      h2 Achievements
+      if badges.length
+        ul
+          each badge in badges
+            li
+              strong #{badge.badgeName}
+              |  - #{badge.badgeDescription}
+      else
+        p No badges earned yet.
 
-      a(href="/") Back to Home
+    div.contributions
+      h2 Contributions
+      if tips.length
+        ul
+          each tip in tips
+            li
+              a(href=`/tips/${tip.tipID}`) #{tip.title} (#{tip.createdAt})
+      else
+        p No contributions yet.
+
+    a(href="/") Back to Home
