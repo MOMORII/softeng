@@ -1,0 +1,38 @@
+doctype html
+html
+  head
+    title #{title}
+    link(rel="stylesheet", href="/static/styles.css")
+  body
+    div.container
+      h1 #{title}
+
+      // Login Form
+      form(action="/login", method="POST")
+        div
+          label(for="username") Username:
+          input(type="text", id="username", name="username", required=true)
+        div
+          label(for="password") Password:
+          input(type="password", id="password", name="password", required=true)
+        div
+          button(type="submit") Login
+
+      hr
+
+      // Signup Form
+      form(action="/signup", method="POST")
+        div
+          label(for="username") Username:
+          input(type="text", id="username", name="username", required=true)
+        div
+          label(for="email") Email:
+          input(type="email", id="email", name="email", required=true)
+        div
+          label(for="password") Password:
+          input(type="password", id="password", name="password", required=true)
+        div
+          button(type="submit") Signup
+
+    // Link to return to the home page (if needed)
+    a(href="/") Back to Home

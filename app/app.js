@@ -153,7 +153,73 @@ app.get("/userstatistics/:userID", function(req, res) {
         console.log(err);
         res.status(500).send('Internal server error');
     });
-});  
+});
+
+app.use(bodyParser.urlencoded({ extended: true }));  // Middleware for parsing form data
+
+// Route for login and signup page
+app.get("/login", function (req, res) {
+    res.render("login_signup", { title: "Login or Signup" });
+});
+
+// Handle POST request for login
+app.post("/login", function (req, res) {
+    const { username, password } = req.body;
+
+    // Query to check if user exists
+    var uSQL = `
+        SELECT * FROM User
+        WHERE username = ?
+    `;
+
+    db.query(uSQL, [username]).then(results => {
+        if (results.length > 0) {
+            const user = results[0];
+            
+            // Compare passwords using bcrypt
+            bcrypt.compare(password, user.password, function (err, isMatch) {
+                if (isMatch) {
+                    // Successful login
+                    res.redirect(`/userprofile/${user.userID}`);
+                } else {
+                    // Incorrect password
+                    res.status(400).send('Incorrect password');
+                }
+            });
+        } else {
+            // User not found
+            res.status(404).send('User not found');
+        }
+    }).catch(err => {
+        console.log(err);
+        res.status(500).send('Internal server error');
+    });
+});
+
+// Handle POST request for signup
+app.post("/signup", function (req, res) {
+    const { username, email, password } = req.body;
+
+    // Hash the password before saving to DB
+    bcrypt.hash(password, 10, function (err, hashedPassword) {
+        if (err) {
+            return res.status(500).send("Error hashing password");
+        }
+
+        // Insert new user into the User table
+        var insertSQL = `
+            INSERT INTO User (username, email, password)
+            VALUES (?, ?, ?)
+        `;
+
+        db.query(insertSQL, [username, email, hashedPassword]).then(() => {
+            res.redirect("/login");  // Redirect to login page after successful signup
+        }).catch(err => {
+            console.log(err);
+            res.status(500).send('Error signing up');
+        });
+    });
+});
 
 //Tests connection to the Game_Tips_and_Tricks databse
 // Fetches the data from the 'User' table
