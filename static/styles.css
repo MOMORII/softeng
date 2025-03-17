@@ -159,6 +159,7 @@ button:hover {
     padding: 15px;
     color: white;
     position:static;
+    height: 100%;
   }
   
   aside h3 {
@@ -187,6 +188,16 @@ button:hover {
   .content-area {
     flex-grow: 1;
     padding: 2vw;
+  }
+
+  .tip {
+    width: 95%;
+    height: auto;
+    background-color: lightgray;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    margin: 20px;
   }
 
 
@@ -254,7 +265,7 @@ footer {
   padding: 10px;
   width: 100%;
   bottom: 0;
-  position:absolute; bottom: 0
+  position: absolute;
 }
   
   

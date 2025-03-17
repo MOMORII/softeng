@@ -1,16 +1,16 @@
-extends layout2
+extends layout
 
 block content
-  h1 Welcome to Game Tips & Tricks
-  p Explore various tips (and tricks) for all kinds of your favourite games!
-
-  each tip in tips
-    .tip
-      h2= tip.tipTitle
-      p Posted by #{tip.username} on #{tip.createdAt.toDateString()}
-      h3 Game: #{tip.gameTitle}
-      p #{tip.content}
-      if tip.categories
-        p Categories: #{tip.categories}
-  else
-    p No tips available yet.
+  div.container
+    ul
+      h1 GAME TIPS & TRICKS
+    
+      each tip in tips
+        .tip
+          h2
+            a(href='/forum/#{tip.tipID}') #{tip.tipTitle}
+          if tip.categories && tip.categories !== 'None'
+            p Categories: #{tip.categories}
+      else
+        p No tips available yet.
+    

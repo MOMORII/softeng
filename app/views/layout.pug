@@ -18,23 +18,24 @@ html
         span.icon 💾
         span.icon 👤
 
-    //NAVBAR BELOW THE HEADER
+    // NAVBAR BELOW THE HEADER
     nav.menu-bar
       a(href="/") HOMEPAGE
       a(href="/forums") FORUMS
-      a(href="/userprofile/#{user.userID}") USER PROFILE
-      a(href="/userstatistics/#{user.userID}") USER STATISTICS
+      a(href="/userprofile/1") USER PROFILE
+      a(href="/userstatistics/1") USER STATISTICS
     
+    // MENU-BAR FOR DIFFERENT FORUM CATEGORIES/GAME TITLES
     #main-content
       aside
         section
           h3 Filter by Category
           nav
             ul
-              li: a(href="/forum/strategy") STRATEGY
-              li: a(href="/forum/shooter") SHOOTER
-              li: a(href="/forum/rpg") ROLE-PLAYING GAME
-              li: a(href="/category/multiplayer") MULTIPLAYER
+              li: a(href="/forum/strategy") Strategy
+              li: a(href="/forum/shooter") Shooter
+              li: a(href="/forum/rpg") Role-Playing Game
+              li: a(href="/category/multiplayer") Multiplayer
         
         section
           h3 Filter by Game Title

@@ -19,13 +19,13 @@ app.use(express.static("static"));
 // Get the functions in the db.js file to use
 const db = require('./services/db');
 
-// Route for the homepage displaying games and their tips
-// Fetch tips with associated games, users, and categories
-app.get('/', (req, res) => {
-    const query = `
+// WEBPAGE: HOMEPAGE
+// It fetches tips with associated games, users, & categories
+app.get("/", function (req, res) {
+    var tSql = `
         SELECT Tip.tipID, Tip.title AS tipTitle, Tip.content, Tip.createdAt,
                Game.title AS gameTitle, User.username,
-               GROUP_CONCAT(Category.name) AS categories
+               COALESCE(GROUP_CONCAT(Category.name SEPARATOR ', '), 'None') AS categories
         FROM Tip
         JOIN Game ON Tip.gameID = Game.gameID
         JOIN User ON Tip.userID = User.userID
@@ -35,15 +35,26 @@ app.get('/', (req, res) => {
         ORDER BY Tip.createdAt DESC
     `;
 
-    db.query(query, (err, results) => {
-        if (err) {
-            console.error('Error fetching tips:', err);
-            res.status(500).send('Database error');
-            return;
-        }
+    db.query(tSql).then(results => {
+        results.forEach(tip => {
+            tip.createdAt = new Date(tip.createdAt); // Convert to Date object
+        });
+
         res.render('homepage', { tips: results });
     });
 });
+
+
+//HOMEPAGE TEST ATTEMPT
+app.get("/homepage", function (req, res) {
+    res.render("homepage", { title: "GTT" });
+});
+
+//FORUM TEST ATTEMPT
+app.get("/forum", function (req, res) {
+    res.render("forum", { title: "Forum" });
+});
+
 
 // WEBPAGE: USER PROFILE
 // Attempts to create a route for /userprofile (connects to respective PUG file)
