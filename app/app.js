@@ -19,12 +19,33 @@ app.use(express.static("static"));
 // Get the functions in the db.js file to use
 const db = require('./services/db');
 
-// Create a route for root - /
-app.get("/", function(req, res) {
-    var test_data = ['one', 'two', 'three', 'four'];
-    res.render("index3", {'title': 'My Index Page', 'heading':'My heading', 'data': test_data});
+// Route for the homepage displaying games and their tips
+// Fetch tips with associated games, users, and categories
+app.get('/', (req, res) => {
+    const query = `
+        SELECT Tip.tipID, Tip.title AS tipTitle, Tip.content, Tip.createdAt,
+               Game.title AS gameTitle, User.username,
+               GROUP_CONCAT(Category.name) AS categories
+        FROM Tip
+        JOIN Game ON Tip.gameID = Game.gameID
+        JOIN User ON Tip.userID = User.userID
+        LEFT JOIN TipCategory ON Tip.tipID = TipCategory.tipID
+        LEFT JOIN Category ON TipCategory.categoryID = Category.categoryID
+        GROUP BY Tip.tipID
+        ORDER BY Tip.createdAt DESC
+    `;
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error fetching tips:', err);
+            res.status(500).send('Database error');
+            return;
+        }
+        res.render('homepage', { tips: results });
+    });
 });
 
+// WEBPAGE: USER PROFILE
 // Attempts to create a route for /userprofile (connects to respective PUG file)
 app.get("/userprofile/:userID", function(req, res) {
     var uID = req.params.userID;
@@ -79,7 +100,8 @@ app.get("/userprofile/:userID", function(req, res) {
     });
 });
 
-// Create a route for /userstatistics and fetch user data
+// WEBPAGE: USER STATISTICS
+// Creates a route for /userstatistics and fetches user data to individual users registered in the GTT DB
 app.get("/userstatistics/:userID", function(req, res) {
     var uID = req.params.userID;
 
@@ -120,15 +142,15 @@ app.get("/userstatistics/:userID", function(req, res) {
         WHERE userID = ?
     `;
 
-    // Query the user profile data
+    // Query the user profile data from the 'User' and 'Profile' tables in the GTT DB
     db.query(uSQL, [uID]).then(userResults => {
         if (userResults.length > 0) {
             var user = userResults[0]; // Since we expect one result
 
-            // Query the user's badges
+            // Query the user's badges from the 'Badge' and 'Badge Criteria' table in the GTT DB
             db.query(bSQL, [uID]).then(badgeResults => {
 
-                // Query the user's total tips, comments, and likes
+                // Query the user's total tips, comments, and likes and fetch the information from 'Tip' table in the GTT DB
                 db.query(tSQL, [uID]).then(tipResults => {
                     db.query(cSQL, [uID]).then(commentResults => {
                         db.query(lSQL, [uID]).then(likeResults => {
@@ -155,15 +177,20 @@ app.get("/userstatistics/:userID", function(req, res) {
     });
 });
 
+
+//WEBPAGE: LOGIN PAGE
 // Basic login function, creates weboage title and renders the login.pug file
 app.get("/login", function (req, res) {
     res.render("login", { title: "Login Page" });
 });
 
+//WEBPAGE: SIGNUP PAGE
 // Basic signup function, creates weboage title and renders the login.pug file
 app.get("/signup", function (req, res) {
     res.render("signup", { title: "Signup Page" });
 });
+
+
 
 
 //Tests connection to the Game_Tips_and_Tricks databse
@@ -234,7 +261,8 @@ app.get("/goodbye", function(req, res) {
     res.send("Goodbye world!");
 });
 
-// Start server on port 3000
+
+// Starts theserver on port 3000
 app.listen(3000,function(){
     console.log(`Server running at http://127.0.0.1:3000/`);
 });

@@ -2,32 +2,50 @@ extends layout2
 
 block content
   div.container
-    h1 #{user.username}'s PROFILE PAGE 
-    div.profile-info
-      p Username: #{user.username}
-      p Email: #{user.email}
-      p Member since: #{user.date_joined}
-      p Title: #{user.progress}
+    ul 
+      h1 #{user.username}'s PROFILE 
+      img(class='image', src='https://i.pinimg.com/originals/f3/8d/37/f38d37a0efcea05e5a19b7080c394538.jpg' alt='Profile Picture' style='width:200px;height:200px;')
+      
+      br
 
-    div.badges
-      h2 ACHIEVEMENTS
-      if badges.length
-        ul
-          each badge in badges
-            li
-              strong #{badge.badgeName}
-              |  - #{badge.badgeDescription}
-      else
-        p No badges earned yet.
+      div.profile-info
+        br
+        strong Username: 
+        |  #{user.username}
+        br
+        strong Title:
+        |  #{user.progress}
+        br
+        strong Member since: 
+        |  #{user.date_joined}
+      
+      div.badges
+        h2 ACHIEVEMENTS
+        if badges.length
+          ul
+            each badge in badges
+              li
+                strong #{badge.badgeName}
+                |  - #{badge.badgeDescription}
+        else
+          p No badges earned yet.
 
-    div.contributions
-      h2 CONTRIBUTIONS
-      if tips.length
-        ul
-          each tip in tips
-            li
-              a(href=`/tips/${tip.tipID}`) #{tip.title} (#{tip.createdAt})
-      else
-        p No contributions yet.
-
-    a(href="/") Back to Home
+    ul
+      img(class='image', src='https://i.pinimg.com/736x/54/55/a1/5455a10a0dd311e129e8bb046eafc768.jpg' alt='Profile Banner' style='width:700px;height:150px')
+      
+      div.dailychallenges
+        h2 DAILY CHALLENGES 
+        p 50 PTS  □ Browse 3 Game Categories
+        p 100 PTS  □ Like 5 Game Tips
+        p 200 PTS □ Submit 1 Game Tip
+        strong Daily Points Collected: 0
+  
+      div.contributions
+        h2 CONTRIBUTIONS
+        if tips.length
+          ul
+            each tip in tips
+              li
+                a(href=`/tips/${tip.tipID}`) #{tip.title} (#{tip.createdAt})
+        else
+          p No contributions yet.
