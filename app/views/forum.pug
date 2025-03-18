@@ -1,16 +1,24 @@
 extends layout
 
 block content
-  h1 Welcome to Game Tips & Tricks
-  p Explore various tips (and tricks) for all kinds of your favourite games!
-
-  each tip in tips
-    .tip
-      h2= tip.tipTitle
-      p Posted by #{tip.username} on #{tip.createdAt}
-      h3 Game: #{tip.gameTitle}
-      p #{tip.content}
-      if tip.categories && tip.categories !== 'None'
-        p Categories: #{tip.categories}
-  else
-    p No tips available yet.
+  div.container
+    ul
+      if tip
+        article
+          header
+            h2= tip.tipTitle
+          main
+            p= tip.content
+            p Chariot's Chalice, Scales of Judgement, & the Ouroboros Warhammer.
+            p These weapons scale on ranged damage and deal heavy AOE. Super helpful against crowds and large boss enemies. These items are fairly hard to obtain, due to their difficult quest requirements. They're ancient relics and far more different than your typical futuristic firearms, but their playstyles can be fun to use when you get the hang of them. 
+            a(href=`/userprofile/${tip.userID}`) #{tip.username} on #{tip.createdAt}
+            br
+        br
+        if comments.length
+          each comment in comments
+            .comment
+              p #{comment.commentContent}
+              a(href=`/userprofile/${comment.userID}`) #{comment.username} on #{comment.createdAt}
+      else
+        p Tip not found.
+    

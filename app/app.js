@@ -45,15 +45,45 @@ app.get("/", function (req, res) {
 });
 
 
-//HOMEPAGE TEST ATTEMPT
+// HOMEPAGE TEST ATTEMPT
 app.get("/homepage", function (req, res) {
     res.render("homepage", { title: "GTT" });
 });
 
-//FORUM TEST ATTEMPT
-app.get("/forum", function (req, res) {
-    res.render("forum", { title: "Forum" });
+// WEBPAGE: FORUM(S)
+// Based on the tip's associated tip ID (tID), a forum post with comments beneath will be shown
+app.get("/forum/:tipID", function (req, res) {
+    var tipID = req.params.tipID;
+
+    var tipSQL = `
+        SELECT Tip.tipID, Tip.title AS tipTitle, Tip.content, Tip.createdAt, 
+               User.username, User.userID
+        FROM Tip
+        JOIN User ON Tip.userID = User.userID
+        WHERE Tip.tipID = ?;
+    `;
+
+    var commentSQL = `
+        SELECT Comments.commentID, Comments.comment AS commentContent, Comments.createdAt, User.username, User.userID
+        FROM Comments
+        JOIN User ON Comments.userID = User.userID
+        WHERE Comments.tipID = 1
+        ORDER BY Comments.createdAt ASC;
+    `;
+
+    db.query(tipSQL, [tipID]).then(tipResults => {
+        if (!tipResults || tipResults.length === 0) {
+            return res.status(404).send("Tip not found");
+        }
+
+        var tip = tipResults[0];
+
+        db.query(commentSQL, [tipID]).then(commentResults => {
+            res.render("forum", { tip: tip, comments: commentResults });
+        });
+    });
 });
+
 
 
 // WEBPAGE: USER PROFILE

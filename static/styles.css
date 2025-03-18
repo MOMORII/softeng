@@ -159,9 +159,8 @@ button:hover {
     padding: 15px;
     color: white;
     position:static;
-    height: 100%;
   }
-  
+
   aside h3 {
     font-size: 18px;
   }
@@ -193,11 +192,25 @@ button:hover {
   .tip {
     width: 95%;
     height: auto;
-    background-color: lightgray;
+    background-color: rgb(240, 230, 250);
     display: inline-block;
     text-align: center;
     vertical-align: middle;
     margin: 20px;
+  }
+
+
+  article>main {
+    display: inline-block;
+    text-align: left;
+    background-color: #e2bef9;
+    padding: 2vw;
+  }
+
+  .comment {
+    text-align: right;
+    background-color: #dbbae4;
+    padding: 2vw;
   }
 
 
