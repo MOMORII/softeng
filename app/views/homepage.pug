@@ -8,7 +8,7 @@ block content
       each tip in tips
         .tip
           h2
-            a(href='/forum/#{tip.tipID}') #{tip.tipTitle}
+            a(href=`/forum/${tip.tipID}`) #{tip.tipTitle}
           if tip.categories && tip.categories !== 'None'
             p Categories: #{tip.categories}
       else

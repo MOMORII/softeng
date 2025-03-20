@@ -56,8 +56,7 @@ app.get("/forum/:tipID", function (req, res) {
     var tipID = req.params.tipID;
 
     var tipSQL = `
-        SELECT Tip.tipID, Tip.title AS tipTitle, Tip.content, Tip.createdAt, 
-               User.username, User.userID
+        SELECT Tip.tipID, Tip.title AS tipTitle, Tip.content, Tip.createdAt, User.username, User.userID
         FROM Tip
         JOIN User ON Tip.userID = User.userID
         WHERE Tip.tipID = ?;
@@ -67,7 +66,7 @@ app.get("/forum/:tipID", function (req, res) {
         SELECT Comments.commentID, Comments.comment AS commentContent, Comments.createdAt, User.username, User.userID
         FROM Comments
         JOIN User ON Comments.userID = User.userID
-        WHERE Comments.tipID = 1
+        WHERE Comments.tipID = ?
         ORDER BY Comments.createdAt ASC;
     `;
 

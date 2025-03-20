@@ -48,6 +48,6 @@ block content
           ul
             each tip in tips
               li
-                a(href=`/tips/${tip.tipID}`) #{tip.title} (#{tip.createdAt})
+                a(href=`/forum/${tip.tipID}`) #{tip.title} (#{tip.createdAt})
         else
           p No contributions yet.
