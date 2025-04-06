@@ -118,6 +118,7 @@ INSERT INTO `Comments` (`commentID`, `userID`, `tipID`, `likeCounter`, `comment`
 CREATE TABLE `Game` (
   `gameID` int NOT NULL,
   `title` varchar(100) NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `releaseDate` date DEFAULT NULL,
   `developer` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -126,10 +127,10 @@ CREATE TABLE `Game` (
 -- Dumping data for table `Game`
 --
 
-INSERT INTO `Game` (`gameID`, `title`, `releaseDate`, `developer`) VALUES
-(1, 'CyberQuest', '2023-09-15', 'Cyber Studios'),
-(2, 'Fantasy Wars', '2022-07-10', 'Epic Games'),
-(3, 'Space Invaders 3000', '2021-11-20', 'Galactic Devs');
+INSERT INTO `Game` (`gameID`, `title`,`description`, `releaseDate`, `developer`) VALUES
+(1, 'CyberQuest', 'When one gets trapped in the middle of a high-tech cyberworld, not often do you get the choice to choose how. But, here, you have a choice... and choose right, or it may very well be your last. Puzzles and more await in this strategy game!', '2023-09-15', 'Cyber Studios'),
+(2, 'FantasyWars', 'Freely explore the vast fields of Eeve, traverse the lands of Gaia, and find the heart of Tifiti in this open-world RPG. Explore and take on quests, or, win turf-war battles against different classes! Choose YOUR destiny!', '2022-07-10', 'Epic Games'),
+(3, 'SpaceInvaders3000', 'A fast-paced action first-person-shooter game, where you take on the role as the last surviving captain of the STELLA in a intergalactic space station infested with hostile aliens, blast your way out and escape before everything crashes straight into the SUN!', '2021-11-20', 'Galactic Devs');
 
 -- --------------------------------------------------------
 

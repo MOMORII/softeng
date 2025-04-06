@@ -16,8 +16,9 @@ app.set('views','./app/views');
 // Add static files location
 app.use(express.static("static"));
 
-// Get the functions in the db.js file to use
+// Get the functions in the db.js file to use ((includes the line of code that makes POST form submissions possible))
 const db = require('./services/db');
+app.use(express.urlencoded({ extended: true }));
 
 // WEBPAGE: HOMEPAGE
 // It fetches tips with associated games, users, & categories
@@ -83,6 +84,25 @@ app.get("/forum/:tipID", function (req, res) {
     });
 });
 
+// ((TESTING))
+// WEBPAGE: TIP CATEGORIES
+app.get("/category/:category", function (req, res) {
+    var category = req.params.category;
+
+    var sql = `
+        SELECT t.tipID, t.title, t.content, t.createdAt, u.username, g.title AS gameTitle, c.name
+        FROM Tip t
+        JOIN TipCategory ON t.tipID = TipCategory.tipID
+        JOIN Category c ON TipCategory.categoryID = c.categoryID
+        JOIN User u ON t.userID = u.userID
+        JOIN Game g ON t.gameID = g.gameID
+        WHERE c.name = ?
+    `;
+
+    db.query(sql, [category]).then(results => {
+        res.render("category", { category: category, tips: results });
+    });
+});
 
 
 // WEBPAGE: USER PROFILE
@@ -229,6 +249,35 @@ app.get("/login", function (req, res) {
 app.get("/signup", function (req, res) {
     res.render("signup", { title: "Signup Page" });
 });
+
+
+// ((TESTING)) (C)RUD - CREATING A TIP
+//note: the pugfile associated with this has been deleted to make the process of debugging easier and cleaner
+
+// GET form page
+app.get("/create-tip", (req, res) => {
+    // Fetch categories for select dropdown
+    db.query("SELECT * FROM Category").then(categories => {
+      res.render("createTip", { categories });
+    });
+  });
+  
+  // POST to create a tip
+  app.post("/create-tip", (req, res) => {
+    const { title, content, categoryID, gameID } = req.body;
+    const userID = req.session.userID;
+  
+    db.query("INSERT INTO Tip (title, content, gameID, userID) VALUES (?, ?, ?, ?)", [title, content, gameID, userID])
+      .then(result => {
+        const tipID = result.insertId;
+        const tipCategoryInserts = categoryID.map(id =>
+          db.query("INSERT INTO TipCategory (tipID, categoryID) VALUES (?, ?)", [tipID, id])
+        );
+        return Promise.all(tipCategoryInserts);
+      })
+      .then(() => res.redirect("/home"));
+  });
+  
 
 
 
