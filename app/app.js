@@ -84,13 +84,14 @@ app.get("/forum/:tipID", function (req, res) {
     });
 });
 
-// ((TESTING))
 // WEBPAGE: TIP CATEGORIES
 app.get("/category/:category", function (req, res) {
     var category = req.params.category;
 
     var sql = `
-        SELECT t.tipID, t.title, t.content, t.createdAt, u.username, g.title AS gameTitle, c.name
+        SELECT t.tipID, t.title, t.content, t.createdAt,
+               u.username, u.userID,
+               g.title AS gameTitle, c.name
         FROM Tip t
         JOIN TipCategory ON t.tipID = TipCategory.tipID
         JOIN Category c ON TipCategory.categoryID = c.categoryID
@@ -101,6 +102,31 @@ app.get("/category/:category", function (req, res) {
 
     db.query(sql, [category]).then(results => {
         res.render("category", { category: category, tips: results });
+    });
+});
+
+
+app.get("/game/:gametitle", function (req, res) {
+    var gametitle = req.params.gametitle;
+
+    var sql = `
+        SELECT t.tipID, t.title, t.content, t.createdAt,
+               u.username, u.userID,
+               g.title AS gameTitle, g.description, g.releaseDate, g.developer
+        FROM Tip t
+        JOIN Game g ON t.gameID = g.gameID
+        JOIN User u ON t.userID = u.userID
+        WHERE g.title = ?
+    `;
+
+    db.query(sql, [gametitle]).then(results => {
+        var gameInfo = results.length > 0 ? results[0] : null;
+
+        res.render("gamepage", {
+            gametitle: gametitle,
+            tips: results,
+            game: gameInfo
+        });
     });
 });
 

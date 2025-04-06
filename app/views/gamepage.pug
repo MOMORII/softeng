@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  div.container
+    ul
+      h1 TIPS FOR "#{gametitle}"
+      
+      if game
+        if game.description
+          p(style="font-style: italic")= game.description
+        if game.releaseDate
+          p Release Date: #{new Date(game.releaseDate).toLocaleDateString()}
+        if game.developer
+          p Developer: #{game.developer}
+        hr
+
+      if tips.length
+        each tip in tips
+          .tip
+            h2 
+              a(href=`/forum/${tip.tipID}`)= tip.title
+
+            p Game: #{tip.gameTitle}
+            p
+              a(href=`/userprofile/${tip.userID}`)= tip.username
+              |  on #{tip.createdAt.toLocaleDateString()}
+      else
+        p Sorry, there are no tips available for this game yet!

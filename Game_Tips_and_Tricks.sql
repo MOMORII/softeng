@@ -173,9 +173,9 @@ CREATE TABLE `Tip` (
 --
 
 INSERT INTO `Tip` (`tipID`, `userID`, `gameID`, `title`, `content`, `createdAt`) VALUES
-(1, 1, 1, 'Best Weapons in CyberQuest', 'Here are the top weapons you should use...', '2025-03-10 14:31:51'),
-(2, 2, 2, 'Winning in Fantasy Wars', 'Master these strategies to win every battle.', '2025-03-10 14:31:51'),
-(3, 3, 3, 'Avoiding Enemies in Space Invaders', 'Learn how to dodge bullets and stay alive longer.', '2025-03-10 14:31:51');
+(1, 1, 1, 'Best Weapons in CyberQuest', 'Here are the top weapons you should use... Chariots Chalice, Scales of Judgement, & the Ouroboros Warhammer. These weapons scale on ranged damage and deal heavy AOE. Super helpful against crowds and large boss enemies. These items are fairly hard to obtain, due to their difficult quest requirements. These ancient relics are far more different than your typical futuristic firearms, but their playstyles can be fun to use when you get the hang of them.', '2025-03-10 14:31:51'),
+(2, 2, 2, 'Winning in Fantasy Wars', 'Mastering this specific strat will help you win every battle against warlocks. With the new update, the meta changed as warlocks got nerfed as the new shapeshifter class allows users to turn into LIZARDFOLK and possess the POISONOUS trait, which toxifies their blood temporarily... making the powerful BLOODSTEAL ability detrimental to warlocks.', '2025-03-10 14:31:51'),
+(3, 3, 3, 'Avoiding Enemies in Space Invaders', 'Learn how to evade enemies and stay alive longer. There is no required killcount for aliens, here, in fact, its advised to take certain paths marked with STELLA symbols that makes avoiding them and saving time all the more easier.', '2025-03-10 14:31:51');
 
 -- --------------------------------------------------------
 
