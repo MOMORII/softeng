@@ -7,6 +7,10 @@
 // Import express.js
 const express = require("express");
 
+//Imports express-session and bcrypt (used for user authentication)
+const session = require("express-session");
+const bcrypt = require("bcryptjs");
+
 // Create express app
 var app = express();
 
@@ -16,9 +20,18 @@ app.set('views','./app/views');
 // Add static files location
 app.use(express.static("static"));
 
+// Sets up session middleware
+app.use(session({
+    secret: 'secretkeysudgsajibdwu',
+    resave: false,
+    saveUninitialized: true
+  }));
+
 // Get the functions in the db.js file to use ((includes the line of code that makes POST form submissions possible))
 const db = require('./services/db');
 app.use(express.urlencoded({ extended: true }));
+
+
 
 // WEBPAGE: HOMEPAGE
 // It fetches tips with associated games, users, & categories
@@ -41,7 +54,8 @@ app.get("/", function (req, res) {
             tip.createdAt = new Date(tip.createdAt); // Convert to Date object
         });
 
-        res.render('homepage', { tips: results });
+        const currentUser = req.session.username || null;
+        res.render('homepage', { tips: results, user: currentUser });
     });
 });
 
@@ -270,10 +284,58 @@ app.get("/login", function (req, res) {
     res.render("login", { title: "Login Page" });
 });
 
+// Improves the feature to implement user authentication (and some super-cool password hashing)
+app.post("/login", function (req, res) {
+    const { username, password } = req.body;
+  
+    const sql = `SELECT * FROM User WHERE username = ?`;
+  
+    db.query(sql, [username]).then(results => {
+      if (results.length === 0) {
+        return res.send("Invalid username or password");
+      }
+  
+      const user = results[0];
+  
+      bcrypt.compare(password, user.password).then(match => {
+        if (match) {
+          // Set session data
+          req.session.userID = user.userID;
+          req.session.username = user.username;
+  
+          res.redirect("/");
+        } else {
+          res.send("Invalid username or password");
+        }
+      });
+    });
+  });
+
 //WEBPAGE: SIGNUP PAGE
 // Basic signup function, creates weboage title and renders the login.pug file
 app.get("/signup", function (req, res) {
     res.render("signup", { title: "Signup Page" });
+});
+
+// Improves the feature to implement user authentication (AND PASSWORD HASHING <3 teehee)
+app.post("/signup", function (req, res) {
+    const { username, email, password } = req.body;
+  
+    bcrypt.hash(password, 10).then(hashedPassword => {
+      const sql = `INSERT INTO User (username, email, password) VALUES (?, ?, ?)`;
+  
+      db.query(sql, [username, email, hashedPassword])
+        .then(() => {
+          res.redirect("/login");
+        });
+    });
+  });
+
+// WEBPAGE cmd: logs out the user by destroying the express-session, allowing a new user to login in  
+app.get("/logout", function (req, res) {
+  req.session.destroy(() => {
+    res.redirect("/login");
+  });
 });
 
 

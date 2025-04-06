@@ -4,13 +4,20 @@ block content
   div.container
     ul
       h1 GAME TIPS & TRICKS
-    
-      each tip in tips
-        .tip
-          h2
-            a(href=`/forum/${tip.tipID}`) #{tip.tipTitle}
-          if tip.categories && tip.categories !== 'None'
-            p Categories: #{tip.categories}
+
+      if user
+        p Welcome to GTT, #{user}! Feel free to browse our latest tips & tricks!
+
+        each tip in tips
+          .tip
+            h2
+              a(href=`/forum/${tip.tipID}`) #{tip.tipTitle}
+            if tip.categories && tip.categories !== 'None'
+              p Categories: #{tip.categories}
+        else
+          p No tips available yet.
       else
-        p No tips available yet.
+        p You are not logged in. Please log in or sign up.
+        a(href='/login') Login
+        a(href='/signup') Sign Up
     

@@ -216,9 +216,9 @@ CREATE TABLE `User` (
 --
 
 INSERT INTO `User` (`userID`, `username`, `email`, `password`, `date_joined`) VALUES
-(1, 'JohnDoe', 'john@example.com', 'hashedpassword1', '2025-03-10 14:29:21'),
-(2, 'JaneSmith', 'jane@example.com', 'hashedpassword2', '2025-03-10 14:29:21'),
-(3, 'MikeGamer', 'mike@example.com', 'hashedpassword3', '2025-03-10 14:29:21');
+(1, 'JohnDoe', 'johnny@example.com', '$2b$10$XoMLR9eU7x22LcOmg6uP3eCL3.JXrZZxwqj01YnXqwtRdiwAAuJGS', '2025-03-10 14:29:21'),
+(2, 'JaneyPlainy', 'janethewitheredrose@gmail.com', '$2b$10$CRTV2Ezs7Zqz1mIOEXTNlus4snVU0SElW5CkwpGM8GbXLZV2PNgz.', '2025-03-10 14:29:21'),
+(3, 'MikeWazWOWski', 'mike.wazolski@outlook.com', '$2b$10$Ub5s9hu38ppjizEkUcn1ae96MvcNTNcHmKoMBEKFL/jiYz8yWd/B.', '2025-03-10 14:29:21');
 
 -- --------------------------------------------------------
 
