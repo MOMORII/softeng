@@ -2,23 +2,20 @@ extends layout2
 
 block content
   div.container
-    div.form-flex-container
-      div.form-box
-        h1 SIGNUP
-        h3 New to 'Game Tips and Tricks'? Register here! 
-        form(action="/signup", method="POST")
-          div.input-group
-            label(for="username") Username:
-            input(type="text", id="username", name="username", required)
-          div.input-group
-            label(for="email") Email:
-            input(type="email", id="email", name="email", required)
-          div.input-group
-            label(for="password") Password:
-            input(type="password", id="password", name="password", required)
-          br
-          div
-            button(type="submit") Signup
-          br
-
-          a(href="/login") Already have an account? Click here to log in!
+    div.form-box
+      h1 SIGNUP
+      h3 New to 'Game Tips and Tricks'? Register here! 
+      form(action="/signup", method="POST")
+        div.form-group
+          label(for="username") Username:
+          input(type="text", id="username", name="username", required)
+        div.form-group
+          label(for="email") Email:
+          input(type="email", id="email", name="email", required)
+        div.form-group
+          label(for="password") Password:
+          input(type="password", id="password", name="password", required)
+        div.form-group
+          button(type="submit") Signup
+        
+        a(href="/login") Already have an account? Click here to log in!

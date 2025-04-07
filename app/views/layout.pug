@@ -13,10 +13,14 @@ html
       .search-bar
         input(type="text" placeholder="Search for TIPS (or TRICKS!)")
       .icons
-        span.icon ➕
-        span.icon 🗪
-        span.icon 💾
-        span.icon 👤
+        a(href="/create" class="create-icon")
+          span.icon ➕
+        a(href="/messaging" class="create-icon")
+          span.icon 🗪
+        a(href="/myposts")
+          span.icon 💾
+        a(href="/signup")
+          span.icon 👤
 
     // NAVBAR BELOW THE HEADER
     nav.menu-bar
@@ -36,14 +40,16 @@ html
               li: a(href="/category/shooter") Shooter
               li: a(href="/category/rpg") Role-Playing Game
               li: a(href="/category/multiplayer") Multiplayer
+              li: a(href="/category/racing") Racing
         
         section
           h3 Filter by Game Title
           nav
             ul
               li: a(href="/game/cyberquest") CyberQuest
-              li: a(href="/game/fantasy%20wars") Fantasy Wars
+              li: a(href="/game/fantasywars") Fantasy Wars
               li: a(href="/game/space%20invaders%203000") Space Invaders 3000
+              li: a(href="/game/gogopowerracers/") GoGoPowerRacers
               li: a(href="/game/ultimalegacy") Ultima Legacy
 
       // MAIN CONTENT FOR WEBPAGES

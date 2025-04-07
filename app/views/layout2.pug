@@ -1,5 +1,7 @@
 //USED FOR LOGIN/SIGNUP, USERPROFILE, AND USER STATISTICS PAGE
 //SAME AS 'LAYOUT' BUT NO MENU-BAR ON THE LEFTSIDE
+//USED FOR THE HOMEPAGE & FORUMS WEBPAGES
+//SAME AS 'LAYOUT' BUT NO MENU-BAR ON THE LEFTSIDE
 
 doctype html
 html
@@ -13,18 +15,23 @@ html
       .search-bar
         input(type="text" placeholder="Search for TIPS (or TRICKS!)")
       .icons
-        span.icon ➕
-        span.icon 🗪
-        span.icon 💾
-        span.icon 👤
+        a(href="/create" class="create-icon")
+          span.icon ➕
+        a(href="/messaging" class="create-icon")
+          span.icon 🗪
+        a(href="/myposts")
+          span.icon 💾
+        a(href="/signup")
+          span.icon 👤
 
-    //NAVBAR BELOW THE HEADER
+    // NAVBAR BELOW THE HEADER
     nav.menu-bar
       a(href="/") HOMEPAGE
-      a(href="/forum/1/") FORUMS
+      a(href="/forum/1") FORUMS
       a(href="/userprofile/1") USER PROFILE
       a(href="/userstatistics/1") USER STATISTICS
-
+    
+    // MENU-BAR FOR DIFFERENT FORUM CATEGORIES/GAME TITLES
     #main-content
       // MAIN CONTENT FOR WEBPAGES
       .content-area

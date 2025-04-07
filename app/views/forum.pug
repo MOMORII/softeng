@@ -2,21 +2,25 @@ extends layout
 
 block content
   div.container
-    ul
-      if tip
-        article
-          header
-            h2= tip.tipTitle
-          main
-            p= tip.content
-            a(href=`/userprofile/${tip.userID}`) #{tip.username} on #{tip.createdAt}
-            br
-        br
-        if comments.length
-          each comment in comments
-            .comment
-              p #{comment.commentContent}
-              a(href=`/userprofile/${comment.userID}`) #{comment.username} on #{comment.createdAt}
-      else
-        p Tip not found.
-    
+    if user && user.username
+      ul
+        if tip
+          article
+            header
+              h2= tip.tipTitle
+            main
+              p= tip.content
+              a(href=`/userprofile/${tip.userID}`) #{tip.username} on #{tip.createdAt}
+              br
+          br
+          if comments.length
+            each comment in comments
+              .comment
+                p #{comment.commentContent}
+                a(href=`/userprofile/${comment.userID}`) #{comment.username} on #{comment.createdAt}
+        else
+          p Tip not found.
+    else 
+      p You are not logged in. Please log in or sign up.
+        a(href='/login') Login
+        a(href='/signup') Sign Up

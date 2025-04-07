@@ -3,7 +3,7 @@ extends layout
 block content
   div.container
     ul
-      h1 TIPS FOR "#{gametitle}"
+      h1 #{gametitle}
       
       if game
         if game.description
@@ -12,6 +12,9 @@ block content
           p Release Date: #{new Date(game.releaseDate).toLocaleDateString()}
         if game.developer
           p Developer: #{game.developer}
+          
+        a(href=`/edit-game/${gametitle}`, class="btn btn-warning") Edit Game
+        
         hr
 
       if tips.length

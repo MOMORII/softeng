@@ -1,0 +1,44 @@
+extends layout
+
+block content
+  div.container
+    if user
+      form(action="/create" method="POST")
+        h2 CREATE A NEW TIP HERE !!!
+        .form-group
+          label(for="title") Title:
+          input(type="text", name="title", required)
+  
+        .form-group
+          label(for="content") Tip Content:
+          textarea(name="content", rows="6", required)
+  
+        .form-group
+          label(for="gameID") Game:
+          select(name="gameID")
+            option(value="") -- Select a game --
+            if games && games.length
+              each game in games
+                option(value=game.gameID)= game.title
+            else
+              option(disabled selected) No games found
+          input(type="text", name="newGame", placeholder="Or add new game")
+
+        .form-group
+          label(for="categoryID") Category:
+          select(name="categoryID")
+            option(value="") -- Select a category --
+            each category in categories
+              option(value=category.categoryID)= category.name
+          input(type="text", name="newCategory", placeholder="Or add new category")
+        
+        .form-group
+          label(for="createdAt") Date (optional):
+          input(type="date" name="createdAt")
+
+        .form-group
+          button(type="submit") Submit Tip
+
+    else
+      p You need to be logged in to post tips.
+      a(href="/login") Login here

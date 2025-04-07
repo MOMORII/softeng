@@ -93,7 +93,7 @@ app.get("/forum/:tipID", function (req, res) {
         var tip = tipResults[0];
 
         db.query(commentSQL, [tipID]).then(commentResults => {
-            res.render("forum", { tip: tip, comments: commentResults });
+            res.render("forum", { tip: tip, comments: commentResults, user: req.session });
         });
     });
 });
@@ -101,6 +101,8 @@ app.get("/forum/:tipID", function (req, res) {
 // WEBPAGE: TIP CATEGORIES
 app.get("/category/:category", function (req, res) {
     var category = req.params.category;
+
+    category = category.toUpperCase();
 
     var sql = `
         SELECT t.tipID, t.title, t.content, t.createdAt,
@@ -119,9 +121,11 @@ app.get("/category/:category", function (req, res) {
     });
 });
 
-
+// WEBPAGE: TIP GAME TITLES
 app.get("/game/:gametitle", function (req, res) {
     var gametitle = req.params.gametitle;
+
+    gametitle = gametitle.toUpperCase();
 
     var sql = `
         SELECT t.tipID, t.title, t.content, t.createdAt,
@@ -132,6 +136,8 @@ app.get("/game/:gametitle", function (req, res) {
         JOIN User u ON t.userID = u.userID
         WHERE g.title = ?
     `;
+
+    console.log(gametitle);
 
     db.query(sql, [gametitle]).then(results => {
         var gameInfo = results.length > 0 ? results[0] : null;
@@ -144,6 +150,50 @@ app.get("/game/:gametitle", function (req, res) {
     });
 });
 
+// WEBPAGE: EDIT GAME
+// Route to display the edit game form
+app.get("/edit-game/:gametitle", (req, res) => {
+    const gametitle = req.params.gametitle.toUpperCase();
+  
+    const sql = "SELECT * FROM Game WHERE title = ?";
+  
+    db.query(sql, [gametitle]).then(result => {
+      if (result.length === 0) {
+        return res.status(404).send("Game not found.");
+      }
+  
+      const game = result[0]; // Get the first result (the game)
+      res.render("edit-game", { game });
+    }).catch(err => {
+      console.error("Error fetching game for editing:", err);
+      res.status(500).send("Failed to load game for editing.");
+    });
+});
+
+// Route to handle the form submission to update game details
+app.post("/edit-game/:gametitle", async (req, res) => {
+    const { title, description, releaseDate, developer } = req.body;
+    const gametitle = req.params.gametitle.toUpperCase();
+  
+    if (!title || !description || !releaseDate || !developer) {
+      return res.status(400).send("All fields are required.");
+    }
+  
+    try {
+      const updateGameSql = `
+        UPDATE Game 
+        SET title = ?, description = ?, releaseDate = ?, developer = ? 
+        WHERE title = ?
+      `;
+      await db.query(updateGameSql, [title, description, releaseDate, developer, gametitle]);
+  
+      res.redirect(`/game/${title.toUpperCase()}`);
+    } catch (err) {
+      console.error("Error updating game:", err);
+      res.status(500).send("Failed to update the game.");
+    }
+});
+  
 
 // WEBPAGE: USER PROFILE
 // Attempts to create a route for /userprofile (connects to respective PUG file)
@@ -186,7 +236,8 @@ app.get("/userprofile/:userID", function(req, res) {
                     res.render('userprofile', {
                         user: user,
                         badges: badgeResults,
-                        tips: tipResults
+                        tips: tipResults,
+                        user: req.session
                     });
                 });
             });
@@ -262,7 +313,7 @@ app.get("/userstatistics/:userID", function(req, res) {
                                     totalTips: tipResults[0].totalTips,
                                     totalComments: commentResults[0].totalComments,
                                     totalLikes: likeResults[0].totalLikes
-                                }
+                                },
                             });
                         });
                     });
@@ -331,6 +382,11 @@ app.post("/signup", function (req, res) {
     });
   });
 
+// NOTE THAT PREEXISTING DATA IN 'User' TABLE HAS SPECIFIC HASHED PASSWORDS, here's the unhashed versions
+// (1) JohnDoe = beep
+// (2) JaneyPlainy = boop
+// (3) MikeWazWOWski = belladonna
+
 // WEBPAGE cmd: logs out the user by destroying the express-session, allowing a new user to login in  
 app.get("/logout", function (req, res) {
   req.session.destroy(() => {
@@ -338,32 +394,101 @@ app.get("/logout", function (req, res) {
   });
 });
 
-
-// ((TESTING)) (C)RUD - CREATING A TIP
-//note: the pugfile associated with this has been deleted to make the process of debugging easier and cleaner
-
-// GET form page
-app.get("/create-tip", (req, res) => {
-    // Fetch categories for select dropdown
-    db.query("SELECT * FROM Category").then(categories => {
-      res.render("createTip", { categories });
-    });
+// ((TESTING)) TIP CREATION
+app.get("/create", async function (req, res) {
+    try {
+      const gamesSql = `SELECT gameID, title FROM Game`;
+      const categoriesSql = `SELECT categoryID, name FROM Category`;
+  
+      const [gamesResult, categoriesResult] = await Promise.all([
+        db.query(gamesSql),
+        db.query(categoriesSql),
+      ]);
+  
+      const games = gamesResult.rows || gamesResult;
+      const categories = categoriesResult.rows || categoriesResult;
+  
+      res.render("create", {
+        title: "Create a Tip",
+        user: req.session.username || null,
+        games,
+        categories,
+      });
+    } catch (err) {
+      console.error("Error loading create form:", err);
+      res.status(500).send("Failed to load create tip form.");
+    }
   });
   
-  // POST to create a tip
-  app.post("/create-tip", (req, res) => {
-    const { title, content, categoryID, gameID } = req.body;
+app.post("/create", async (req, res) => {
+    const { title, content, gameID, newGame, categoryID = [], newCategory } = req.body;
     const userID = req.session.userID;
+
+    // Ensures that title and content textareas are filled in (they cannot be empty)
+    if (!title || !content) {
+        return res.status(400).send("Title and content are required.");
+    }
+      
+    // Ensures that, at least, one game must be associated with the tip (they cannot be empty)
+    if ((!gameID || gameID === "") && (!newGame || newGame.trim() === "")) {
+      return res.status(400).send("You must select an existing game or add a new one.");
+    }
+    
+    // Ensures that, at least, one category must be associated with the tip (they cannot be empty)
+    if ((!categoryID || categoryID === "") && (!newCategory || newCategory.trim() === "")) {
+      return res.status(400).send("You must select an existing category or add a new one.");
+    }
   
-    db.query("INSERT INTO Tip (title, content, gameID, userID) VALUES (?, ?, ?, ?)", [title, content, gameID, userID])
-      .then(result => {
-        const tipID = result.insertId;
-        const tipCategoryInserts = categoryID.map(id =>
-          db.query("INSERT INTO TipCategory (tipID, categoryID) VALUES (?, ?)", [tipID, id])
+    try {
+      // Use the selected game or insert new game if provided
+      let finalGameID = gameID;
+  
+      if (newGame && newGame.trim() !== "") {
+        // Insert new game into Game table
+        const newGameResult = await db.query(
+          "INSERT INTO Game (title) VALUES (?)", 
+          [newGame.trim()]
         );
-        return Promise.all(tipCategoryInserts);
-      })
-      .then(() => res.redirect("/home"));
+        finalGameID = newGameResult.insertId; // Get the newly inserted gameID
+      }
+  
+      // Use the selected categories or insert new category if provided
+      let newCategoryID = null;
+      if (newCategory && newCategory.trim() !== "") {
+        // Insert new category into Category table
+        const newCategoryResult = await db.query(
+          "INSERT INTO Category (name) VALUES (?)",
+          [newCategory.trim()]
+        );
+        newCategoryID = newCategoryResult.insertId; // Get the newly inserted categoryID
+      }
+  
+      // Insert the new tip with selected or newly created game and category
+      const tipResult = await db.query(
+        "INSERT INTO Tip (title, content, gameID, userID) VALUES (?, ?, ?, ?)",
+        [title, content, finalGameID, userID]
+      );
+      const tipID = tipResult.insertId;
+  
+      // Insert into TipCategory table (mapping the tip to categories)
+      const rawCategoryIDs = Array.isArray(categoryID) ? categoryID : [categoryID];
+      const categoryIDs = rawCategoryIDs.filter(id => id && id !== "");
+
+if (newCategoryID) categoryIDs.push(newCategoryID);
+
+  
+      // Insert tip-category relationships
+      const insertCategoryPromises = categoryIDs.map(id =>
+        db.query("INSERT INTO TipCategory (tipID, categoryID) VALUES (?, ?)", [tipID, id])
+      );
+      await Promise.all(insertCategoryPromises);
+  
+      // Redirect to the homepage after the tip is created
+      res.redirect("/");
+    } catch (err) {
+      console.error("Error creating tip:", err);
+      res.status(500).send("Failed to create tip.");
+    }
   });
   
 

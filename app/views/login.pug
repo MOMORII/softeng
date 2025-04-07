@@ -2,20 +2,17 @@ extends layout2
 
 block content
   div.container
-    div.form-flex-container
-      div.form-box
-        h1 LOGIN
-        h3 Returning User? 
-        form(action="/login", method="POST")
-          div.input-group
-            label(for="username") Username:
-            input(type="text", id="username", name="username", required)
-          div.input-group
-            label(for="password") Password:
-            input(type="password", id="password", name="password", required)
-          br
-          div
-            button(type="submit") Login
-          br
+    div.form-box
+      h1 LOGIN
+      h3 Are you a returning user? Log in here!
+      form(action="/login", method="POST")
+        div.form-group
+          label(for="username") Username:
+          input(type="text", id="username", name="username", required)
+        div.form-group
+          label(for="password") Password:
+          input(type="password", id="password", name="password", required)
+        div.form-group
+          button(type="submit") Login
 
-          a(href="/signup") Don't have an account? Click here to sign up!
+        a(href="/signup") Don't have an account? Click here to sign up!
