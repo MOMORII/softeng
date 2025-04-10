@@ -2,48 +2,53 @@ extends layout2
 
 block content
   div.container
-    ul
-      h1 #{user.username}'s STATISTICS
-      img(class='image', src='https://i.pinimg.com/originals/f3/8d/37/f38d37a0efcea05e5a19b7080c394538.jpg' alt='Profile Picture' style='width:200px;height:200px;')
-
-      div.stats
-        h2 OVERVIEW:
-        ul
-          li Total Tips Posted: #{stats.totalTips}
-          li Total Comments: #{stats.totalComments}
-          li Total Likes Received: #{stats.totalLikes}
-    ul 
-      div.badges-earned
-        h2 BADGES:
-        if badges.length > 0
+    if user
+      ul
+        h1 #{user.username}'s STATISTICS
+        img(class='image', src='https://i.pinimg.com/originals/f3/8d/37/f38d37a0efcea05e5a19b7080c394538.jpg' alt='Profile Picture' style='width:200px;height:200px;')
+  
+        div.stats
+          h2 OVERVIEW:
           ul
-            each badge in badges
-              li 
-                strong #{badge.badgeName}
-                |  - #{badge.badgeDescription}
-                br
-                br
-                strong Baby Steps
-                |  - Created and authenticated their account!
-                br
-                br
-                strong Fresh Start!
-                |  - Wrote their very first game tip!
-                br
-                br
-                strong Friendly Advice
-                |  - Recieved a few comments from a few helpful strangers.
-        else
-          p No badges earned yet.
-
-        br
-
-        h2 MOST LIKED COMMENTS:
-        if topComments && topComments.length > 0
-          ul
-            each comment in topComments
-              li "#{comment.text}" - #{comment.likeCounter} Likes
-        else
-          p "Thanks so much for the help! I was getting stumped at almost every turn in the maze part of this area!" - 32
-          p "Actually, the boss can be found faster if you skip the first few quests. They're actually skippable." - 21
-          p "Have you tried looking at the different symbols? They form a picture if lined up correctly." - 7
+            li Total Tips Posted: #{stats.totalTips}
+            li Total Comments: #{stats.totalComments}
+            li Total Likes Received: #{stats.totalLikes}
+      ul 
+        div.badges-earned
+          h2 BADGES:
+          if badges.length > 0
+            ul
+              each badge in badges
+                li 
+                  strong #{badge.badgeName}
+                  |  - #{badge.badgeDescription}
+                  br
+                  br
+                  strong Baby Steps
+                  |  - Created and authenticated their account!
+                  br
+                  br
+                  strong Fresh Start!
+                  |  - Wrote their very first game tip!
+                  br
+                  br
+                  strong Friendly Advice
+                  |  - Recieved a few comments from a few helpful strangers.
+          else
+            p No badges earned yet.
+  
+          br
+  
+          h2 MOST LIKED COMMENTS:
+          if topComments && topComments.length > 0
+            ul
+              each comment in topComments
+                li "#{comment.text}" - #{comment.likeCounter} Likes
+          else
+            p "Thanks so much for the help! I was getting stumped at almost every turn in the maze part of this area!" - 32
+            p "Actually, the boss can be found faster if you skip the first few quests. They're actually skippable." - 21
+            p "Have you tried looking at the different symbols? They form a picture if lined up correctly." - 7
+    else
+        p You are not logged in. Please log in or sign up.
+        a(href='/login') Login
+        a(href='/signup') Sign Up

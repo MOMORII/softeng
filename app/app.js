@@ -32,10 +32,10 @@ const db = require('./services/db');
 app.use(express.urlencoded({ extended: true }));
 
 
-
 // WEBPAGE: HOMEPAGE
 // It fetches tips with associated games, users, & categories
 app.get("/", function (req, res) {
+    
     var tSql = `
         SELECT Tip.tipID, Tip.title AS tipTitle, Tip.content, Tip.createdAt,
                Game.title AS gameTitle, User.username,
@@ -48,6 +48,7 @@ app.get("/", function (req, res) {
         GROUP BY Tip.tipID
         ORDER BY Tip.createdAt DESC
     `;
+    //uses sql query to grab tip data
 
     db.query(tSql).then(results => {
         results.forEach(tip => {
@@ -57,18 +58,15 @@ app.get("/", function (req, res) {
         const currentUser = req.session.username || null;
         res.render('homepage', { tips: results, user: currentUser });
     });
+    //renders the homepage
 });
 
-
-// HOMEPAGE TEST ATTEMPT
-app.get("/homepage", function (req, res) {
-    res.render("homepage", { title: "GTT" });
-});
 
 // WEBPAGE: FORUM(S)
 // Based on the tip's associated tip ID (tID), a forum post with comments beneath will be shown
 app.get("/forum/:tipID", function (req, res) {
     var tipID = req.params.tipID;
+    //intiialises tipID using params so it can be fetched from the db
 
     var tipSQL = `
         SELECT Tip.tipID, Tip.title AS tipTitle, Tip.content, Tip.createdAt, User.username, User.userID
@@ -76,6 +74,7 @@ app.get("/forum/:tipID", function (req, res) {
         JOIN User ON Tip.userID = User.userID
         WHERE Tip.tipID = ?;
     `;
+    //uses sql query to grab tip data
 
     var commentSQL = `
         SELECT Comments.commentID, Comments.comment AS commentContent, Comments.createdAt, User.username, User.userID
@@ -84,25 +83,30 @@ app.get("/forum/:tipID", function (req, res) {
         WHERE Comments.tipID = ?
         ORDER BY Comments.createdAt ASC;
     `;
+    //uses sql query to grab comment data
 
     db.query(tipSQL, [tipID]).then(tipResults => {
         if (!tipResults || tipResults.length === 0) {
             return res.status(404).send("Tip not found");
         }
+        //if the tip results have no value or are null, then an err msg will appear
 
         var tip = tipResults[0];
 
         db.query(commentSQL, [tipID]).then(commentResults => {
             res.render("forum", { tip: tip, comments: commentResults, user: req.session });
         });
+        //renders the forum pugfile
     });
 });
 
 // WEBPAGE: TIP CATEGORIES
 app.get("/category/:category", function (req, res) {
     var category = req.params.category;
+    //initialises category using params to grab this data from the db
 
     category = category.toUpperCase();
+    //transforms title into UPPER CASE
 
     var sql = `
         SELECT t.tipID, t.title, t.content, t.createdAt,
@@ -115,17 +119,21 @@ app.get("/category/:category", function (req, res) {
         JOIN Game g ON t.gameID = g.gameID
         WHERE c.name = ?
     `;
+    //uses sql query to grab the category game and the additional data about the submitted tips in that category, as well as the users that submitted it
 
     db.query(sql, [category]).then(results => {
         res.render("category", { category: category, tips: results });
     });
+    //renders the category pug file
 });
 
 // WEBPAGE: TIP GAME TITLES
 app.get("/game/:gametitle", function (req, res) {
     var gametitle = req.params.gametitle;
+    //initialises game title using params to grab this data from the db
 
     gametitle = gametitle.toUpperCase();
+    //transforms the gametitle into all UPPERCASE
 
     var sql = `
         SELECT t.tipID, t.title, t.content, t.createdAt,
@@ -136,8 +144,10 @@ app.get("/game/:gametitle", function (req, res) {
         JOIN User u ON t.userID = u.userID
         WHERE g.title = ?
     `;
+    //uses sql query to grab info on the game title
 
-    console.log(gametitle);
+    console.log(gametitle); 
+    //prints to console terminal to check whether its the correct game title
 
     db.query(sql, [gametitle]).then(results => {
         var gameInfo = results.length > 0 ? results[0] : null;
@@ -147,6 +157,7 @@ app.get("/game/:gametitle", function (req, res) {
             tips: results,
             game: gameInfo
         });
+        //renders gamepage pugfile and pushes it
     });
 });
 
@@ -164,9 +175,11 @@ app.get("/edit-game/:gametitle", (req, res) => {
   
       const game = result[0]; // Get the first result (the game)
       res.render("edit-game", { game });
+      //renders the edit-game pugfile
     }).catch(err => {
       console.error("Error fetching game for editing:", err);
       res.status(500).send("Failed to load game for editing.");
+      //impleements error-checking
     });
 });
 
@@ -174,10 +187,12 @@ app.get("/edit-game/:gametitle", (req, res) => {
 app.post("/edit-game/:gametitle", async (req, res) => {
     const { title, description, releaseDate, developer } = req.body;
     const gametitle = req.params.gametitle.toUpperCase();
+    //grabs the relevant game data and instantialises the game title from the DB into uppercase letters
   
     if (!title || !description || !releaseDate || !developer) {
       return res.status(400).send("All fields are required.");
     }
+    // if any of these fields are null, a status msg will alert the user of such
   
     try {
       const updateGameSql = `
@@ -185,13 +200,16 @@ app.post("/edit-game/:gametitle", async (req, res) => {
         SET title = ?, description = ?, releaseDate = ?, developer = ? 
         WHERE title = ?
       `;
+      // updates game data with the new data
       await db.query(updateGameSql, [title, description, releaseDate, developer, gametitle]);
   
-      res.redirect(`/game/${title.toUpperCase()}`);
+      res.redirect(`/game/${title.toUpperCase()}`); 
+      //redirects them to the website here
     } catch (err) {
       console.error("Error updating game:", err);
       res.status(500).send("Failed to update the game.");
     }
+    //try-catch applied and used here
 });
   
 
@@ -380,21 +398,30 @@ app.post("/signup", function (req, res) {
           res.redirect("/login");
         });
     });
-  });
+});
 
 // NOTE THAT PREEXISTING DATA IN 'User' TABLE HAS SPECIFIC HASHED PASSWORDS, here's the unhashed versions
 // (1) JohnDoe = beep
 // (2) JaneyPlainy = boop
 // (3) MikeWazWOWski = belladonna
 
+//WEBPAGE cmd: passes session data into all renders so any pugfile can access the logged-in user's info
+app.use((req, res, next) => {
+    res.locals.session = req.session;
+    next();
+  });
+
 // WEBPAGE cmd: logs out the user by destroying the express-session, allowing a new user to login in  
 app.get("/logout", function (req, res) {
-  req.session.destroy(() => {
-    res.redirect("/login");
-  });
+    const username = req.session.username || 'Unknown user';
+    
+    req.session.destroy(() => {
+      console.log(`${username} has logged out.`);
+      res.redirect("/login");
+    });
 });
 
-// ((TESTING)) TIP CREATION
+// ADVANCED FEATURE: TIP CREATION
 app.get("/create", async function (req, res) {
     try {
       const gamesSql = `SELECT gameID, title FROM Game`;
@@ -491,6 +518,52 @@ if (newCategoryID) categoryIDs.push(newCategoryID);
     }
   });
   
+// ADVANCED FEATURE: USER'S POSTS
+// Collects user specific post contributions for the logged-in user to view
+// /myposts - shows only the logged-in user's tips
+app.get('/myposts', (req, res) => {
+    console.log('Session:', req.session); // debug log
+
+    const userID = req.session.userID;
+
+    if (!userID) {
+        return res.status(403).send('You must be logged in to view this page.');
+        return res.redirect('/login'); // Or show an error if needed
+    }
+
+    const userSQL = `
+        SELECT u.username, u.date_joined, p.progress
+        FROM User u
+        JOIN Profile p ON u.userID = p.userID
+        WHERE u.userID = ?
+    `;
+
+    const tipsSQL = `
+        SELECT tipID, title, createdAt
+        FROM Tip
+        WHERE userID = ?
+        ORDER BY createdAt DESC
+    `;
+
+    db.query(userSQL, [userID]).then(userResults => {
+        if (userResults.length === 0) {
+            console.log("No user found for ID:", userID); // debug
+            return res.status(404).send('User not found');
+        }
+
+        const user = userResults[0];
+
+        db.query(tipsSQL, [userID]).then(tipResults => {
+            res.render('myposts', {
+                user: user,
+                tips: tipResults
+            });
+        });
+    }).catch(err => {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+    });
+});
 
 
 

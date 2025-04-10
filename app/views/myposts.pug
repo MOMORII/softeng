@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  div.container
+    ul
+      h1 #{user.username}'s Contributions
+  
+      p
+        strong Title:
+        |  #{user.progress}
+        br
+        strong Member since:
+        |  #{user.date_joined}
+      
+      hr
+  
+      h2 Your Submitted Tips
+  
+      if tips.length
+        ul
+          each tip in tips
+            .tip
+              li 
+                h2
+                  a(href=`/forum/${tip.tipID}`) #{tip.title}
+                p #{tip.createdAt}
+      else
+        p You haven’t submitted any tips yet. Why not start?
+        a(href=`/create`) Click here!
